@@ -15,8 +15,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        window?.rootViewController = ViewController()
+        window?.rootViewController = SplashViewController()
         window?.makeKeyAndVisible()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            
+            let vc = OnboardingViewController()
+            self.window?.rootViewController = vc
+        }
     }
 }
 
