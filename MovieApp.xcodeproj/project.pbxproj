@@ -10,6 +10,7 @@
 		178AA9D12E3E3A2500651B67 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 178AA9D02E3E3A2500651B67 /* SnapKit */; };
 		178AA9D42E3E3A6F00651B67 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 178AA9D32E3E3A6F00651B67 /* Toast */; };
 		178AA9D72E3E3A8000651B67 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 178AA9D62E3E3A8000651B67 /* Alamofire */; };
+		178AABC02E3E3FE800651B67 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 178AABBF2E3E3FE800651B67 /* Then */; };
 		178AEC132E3B427900187F5C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 178AEC122E3B427900187F5C /* .gitignore */; };
 /* End PBXBuildFile section */
 
@@ -22,7 +23,7 @@
 		178AEC0C2E3B41F500187F5C /* Exceptions for "MovieApp" folder in "MovieApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				Application/Info.plist,
 			);
 			target = 178AEBF92E3B41F300187F5C /* MovieApp */;
 		};
@@ -47,6 +48,7 @@
 				178AA9D72E3E3A8000651B67 /* Alamofire in Frameworks */,
 				178AA9D42E3E3A6F00651B67 /* Toast in Frameworks */,
 				178AA9D12E3E3A2500651B67 /* SnapKit in Frameworks */,
+				178AABC02E3E3FE800651B67 /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +95,7 @@
 				178AA9D02E3E3A2500651B67 /* SnapKit */,
 				178AA9D32E3E3A6F00651B67 /* Toast */,
 				178AA9D62E3E3A8000651B67 /* Alamofire */,
+				178AABBF2E3E3FE800651B67 /* Then */,
 			);
 			productName = MovieApp;
 			productReference = 178AEBFA2E3B41F300187F5C /* MovieApp.app */;
@@ -126,6 +129,7 @@
 				178AA9CF2E3E3A2500651B67 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				178AA9D22E3E3A6F00651B67 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				178AA9D52E3E3A8000651B67 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				178AABBE2E3E3FE800651B67 /* XCRemoteSwiftPackageReference "Then" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 178AEBFB2E3B41F300187F5C /* Products */;
@@ -167,7 +171,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MovieApp/Info.plist;
+				INFOPLIST_FILE = MovieApp/Application/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -198,7 +202,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MovieApp/Info.plist;
+				INFOPLIST_FILE = MovieApp/Application/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -388,6 +392,14 @@
 				minimumVersion = 5.10.2;
 			};
 		};
+		178AABBE2E3E3FE800651B67 /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -405,6 +417,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 178AA9D52E3E3A8000651B67 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		178AABBF2E3E3FE800651B67 /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 178AABBE2E3E3FE800651B67 /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
