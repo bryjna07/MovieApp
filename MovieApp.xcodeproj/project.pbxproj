@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		178AA9D12E3E3A2500651B67 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 178AA9D02E3E3A2500651B67 /* SnapKit */; };
+		178AA9D42E3E3A6F00651B67 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 178AA9D32E3E3A6F00651B67 /* Toast */; };
+		178AA9D72E3E3A8000651B67 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 178AA9D62E3E3A8000651B67 /* Alamofire */; };
 		178AEC132E3B427900187F5C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 178AEC122E3B427900187F5C /* .gitignore */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +44,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				178AA9D72E3E3A8000651B67 /* Alamofire in Frameworks */,
+				178AA9D42E3E3A6F00651B67 /* Toast in Frameworks */,
+				178AA9D12E3E3A2500651B67 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +90,9 @@
 			);
 			name = MovieApp;
 			packageProductDependencies = (
+				178AA9D02E3E3A2500651B67 /* SnapKit */,
+				178AA9D32E3E3A6F00651B67 /* Toast */,
+				178AA9D62E3E3A8000651B67 /* Alamofire */,
 			);
 			productName = MovieApp;
 			productReference = 178AEBFA2E3B41F300187F5C /* MovieApp.app */;
@@ -113,6 +122,11 @@
 			);
 			mainGroup = 178AEBF12E3B41F300187F5C;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				178AA9CF2E3E3A2500651B67 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				178AA9D22E3E3A6F00651B67 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				178AA9D52E3E3A8000651B67 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 178AEBFB2E3B41F300187F5C /* Products */;
 			projectDirPath = "";
@@ -348,6 +362,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		178AA9CF2E3E3A2500651B67 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		178AA9D22E3E3A6F00651B67 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.1;
+			};
+		};
+		178AA9D52E3E3A8000651B67 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		178AA9D02E3E3A2500651B67 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 178AA9CF2E3E3A2500651B67 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		178AA9D32E3E3A6F00651B67 /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 178AA9D22E3E3A6F00651B67 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
+		};
+		178AA9D62E3E3A8000651B67 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 178AA9D52E3E3A8000651B67 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 178AEBF22E3B41F300187F5C /* Project object */;
 }
