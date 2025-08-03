@@ -15,6 +15,11 @@ enum Text {
     static let onboarding = "Onboarding"
     static let explain = "당신만의 영화세상,\nLet's Movie로 시작해보세요."
     
+    static let recent = "최근검색어"
+    static let allDelete = "전체 삭제"
+    static let searchEmpty = "최근 검색내역이 없습니다."
+    static let today = "오늘의 영화"
+    
     enum ButtonText {
         static let start = "시작하기"
         static let edit = "편집"
@@ -34,5 +39,17 @@ enum Text {
         static let firstImage = "popcorn"
         static let secondImage = "film.stack"
         static let thirdImage = "person.crop.circle"
+    }
+    
+    enum SystemImage {
+        static let heart = "heart"
+        static let heartFill = "heart.fill"
+        static let start = "star.fill"
+        static let camera = "camera.fill"
+        static let film = "film.fill"
+        static let calendar = "calendar"
+        static let magnify = "magnifyingglass"
+        static let xmark = "xmark"
+        static let rightButton = "chevron.forward"
     }
 }

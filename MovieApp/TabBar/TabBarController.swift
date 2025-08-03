@@ -19,8 +19,8 @@ final class TabBarController: UITabBarController {
     }
     
     private func setupViewControllers() {
-        let mainVC = MovieMainViewController()
-        let first = UINavigationController(rootViewController: mainVC).then {
+//        let mainVC =
+        let first = UINavigationController(rootViewController: MovieMainViewController()).then {
             $0.tabBarItem = UITabBarItem(
                 title: Text.TabBar.firstTitle,
                 image: UIImage(systemName: Text.TabBar.firstImage),
@@ -28,7 +28,7 @@ final class TabBarController: UITabBarController {
             )
         }
         
-        let second = UINavigationController(rootViewController: mainVC).then {
+        let second = UINavigationController(rootViewController: MovieMainViewController()).then {
             $0.tabBarItem = UITabBarItem(
                 title: Text.TabBar.secondTitle,
                 image: UIImage(systemName: Text.TabBar.secondImage),
@@ -36,7 +36,7 @@ final class TabBarController: UITabBarController {
             )
         }
         
-        let third = UINavigationController(rootViewController: mainVC).then {
+        let third = UINavigationController(rootViewController: MovieMainViewController()).then {
             $0.tabBarItem = UITabBarItem(
                 title: Text.TabBar.thirdTitle,
                 image: UIImage(systemName: Text.TabBar.thirdImage),
