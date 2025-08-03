@@ -17,6 +17,11 @@ enum Text {
     
     enum ButtonText {
         static let start = "시작하기"
+        static let edit = "편집"
+        static let complete = "완료"
     }
     
+    enum Title {
+        static let nickname = "닉네임 설정"
+    }
 }

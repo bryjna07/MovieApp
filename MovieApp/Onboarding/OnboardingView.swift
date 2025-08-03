@@ -31,7 +31,7 @@ final class OnboardingView: BaseView {
         $0.numberOfLines = 0
     }
     
-    let startButton = CustomButton(title: Text.ButtonText.start)
+    let startButton = CustomButton(title: Text.ButtonText.start, color: .main, width: 1)
     
 }
 

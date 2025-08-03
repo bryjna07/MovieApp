@@ -21,7 +21,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             
             let vc = OnboardingViewController()
-            self.window?.rootViewController = vc
+            let naviVC = UINavigationController(rootViewController: vc)
+            
+            self.window?.rootViewController = naviVC
         }
     }
 }

@@ -18,6 +18,7 @@ final class OnboardingViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupButtonAction()
+        navigationController?.navigationBar.isHidden = true
     }
     
     private func setupButtonAction() {
@@ -25,6 +26,8 @@ final class OnboardingViewController: BaseViewController {
     }
     
     @objc private func startButtonTapped() {
-        print(#function)
+        let vc = NicknameViewController()
+        
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

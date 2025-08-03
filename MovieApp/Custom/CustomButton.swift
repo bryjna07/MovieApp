@@ -9,14 +9,14 @@ import UIKit
 
 final class CustomButton: UIButton {
     
-    init(title: String) {
+    init(title: String, color: UIColor, width: CGFloat) {
         super.init(frame: .zero)
         setTitle(title, for: .normal)
-        setTitleColor(.main, for: .normal)
+        setTitleColor(color, for: .normal)
         backgroundColor = .black
-        layer.borderWidth = 1
-        layer.borderColor = UIColor.main.cgColor
-        layer.cornerRadius = 16
+        layer.borderWidth = width
+        layer.borderColor = color.cgColor
+        layer.cornerRadius = 20
         clipsToBounds = true
     }
     
