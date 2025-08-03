@@ -22,6 +22,14 @@ final class SearchView: BaseView {
         $0.searchTextField.textColor = .white // 입력 색상
     }
     
+    lazy var tableView = UITableView().then {
+        $0.register(SearchCell.self, forCellReuseIdentifier: SearchCell.id)
+        $0.rowHeight = 140
+        $0.backgroundColor = .black
+        $0.allowsSelection = false
+        $0.keyboardDismissMode = .onDrag
+    }
+    
 }
 
 
@@ -29,6 +37,7 @@ extension SearchView {
     override func configureHierarchy() {
         [
             searchBar,
+            tableView,
         ].forEach {
             addSubview($0)
         }
@@ -39,7 +48,11 @@ extension SearchView {
             $0.top.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(16)
         }
         
-        
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(searchBar.snp.bottom).offset(16)
+            $0.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(16)
+            $0.bottom.equalTo(safeAreaLayoutGuide)
+        }
     }
 }
 

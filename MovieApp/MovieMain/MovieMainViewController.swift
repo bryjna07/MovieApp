@@ -14,7 +14,7 @@ final class MovieMainViewController: BaseViewController {
     
     let networkManager = NetworkManager.shared
     
-    var searchList: [String] = []
+    var recentSearchList: [String] = []
     
     var movie: MovieInfo?
     
@@ -89,7 +89,7 @@ extension MovieMainViewController: UICollectionViewDelegate, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == mainView.recentCollectionView {
-            return searchList.count
+            return recentSearchList.count
         } else {
             return movieList.count
         }

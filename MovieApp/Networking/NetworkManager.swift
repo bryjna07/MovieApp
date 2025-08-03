@@ -33,12 +33,16 @@ final class NetworkManager {
         }
     }
     
-    func makeURL(path: MovieAPI.Path.RawValue) -> URL? {
+    func makeURL(path: MovieAPI.Path.RawValue, query: [URLQueryItem]? = nil) -> URL? {
         var components = URLComponents()
         components.scheme = MovieAPI.scheme
         components.host = MovieAPI.host
         components.path = path
-        components.queryItems = MovieAPI.queryItems
+        guard let query else {
+            components.queryItems = MovieAPI.queryItems
+            return components.url
+        }
+        components.queryItems = query + MovieAPI.queryItems
         return components.url
     }
 }
