@@ -13,31 +13,64 @@ final class BackdropCell: BaseCollectionViewCell {
     
     static let id = "BackdropCell"
     
-    private let imageView = UIImageView().then {
-        $0.backgroundColor = .main
+    var movie: Movie? {
+        didSet {
+            configureUIWithData()
+        }
     }
+    
+    var backdrop: Backdrop? {
+        didSet {
+            setupBackdrop()
+        }
+    }
+    
+    private let imageView = UIImageView()
     
     private let pageControll = UIPageControl().then {
         $0.backgroundColor = .movieGray
         $0.numberOfPages = 5
     }
     
-    private let dateIconView = IconView(image: UIImage(systemName: Text.SystemImage.calendar), text: "2024-12-24")
+    private let dateIconView = IconView(image: UIImage(systemName: Text.SystemImage.calendar))
     
     private let dividerView = UIView().then {
         $0.backgroundColor = .movieGray
     }
     
-    private let starIconView = IconView(image: UIImage(systemName: Text.SystemImage.star), text: "9.0")
+    private let starIconView = IconView(image: UIImage(systemName: Text.SystemImage.star))
     
     private let secondDividerView = UIView().then {
         $0.backgroundColor = .movieGray
     }
     
-    private let filmIconView = IconView(image: UIImage(systemName: Text.SystemImage.star), text: "액션, 스릴러")
+    private let filmIconView = IconView(image: UIImage(systemName: Text.SystemImage.film))
+    
+    override func prepareForReuse() {
+        imageView.image = nil
+    }
 }
 
 extension BackdropCell {
+    
+    override func configureUIWithData() {
+        guard let movie else { return }
+        dateIconView.label.text = movie.releaseDate
+        starIconView.label.text = "\(movie.voteAverage)"
+        let genreText = movie.genreIds.map {
+            Genre.genreForString(id: $0)
+        }
+        filmIconView.label.text = "\(genreText[0]), \(genreText[1])"
+    }
+    
+    private func setupBackdrop() {
+        guard let backdrop else { return }
+        let imageURL = backdrop.filePath
+        let urlString = MovieImage.movieImageURL(size: 200, posterPath: imageURL)
+        let url = URL(string: urlString)
+        imageView.setKFImage(from: url)
+    }
+    
     override func configureHierarchy() {
         
         imageView.addSubview(pageControll)
@@ -71,7 +104,7 @@ extension BackdropCell {
         
         dividerView.snp.makeConstraints {
             $0.top.equalTo(imageView.snp.bottom).offset(16)
-            $0.leading.equalTo(dateIconView.snp.trailing).offset(4)
+            $0.leading.equalTo(dateIconView.snp.trailing).offset(8)
             $0.height.equalTo(dateIconView.snp.height)
             $0.width.equalTo(1)
         }
@@ -84,16 +117,18 @@ extension BackdropCell {
         
         secondDividerView.snp.makeConstraints {
             $0.top.equalTo(imageView.snp.bottom).offset(16)
-            $0.leading.equalTo(starIconView.snp.trailing).offset(4)
+            $0.leading.equalTo(starIconView.snp.trailing).offset(8)
             $0.height.equalTo(starIconView.snp.height)
             $0.width.equalTo(1)
         }
         
         filmIconView.snp.makeConstraints {
             $0.top.equalTo(imageView.snp.bottom).offset(16)
-            $0.leading.equalTo(secondDividerView.snp.trailing).offset(4)
+            $0.leading.equalTo(secondDividerView.snp.trailing).offset(8)
             $0.bottom.equalToSuperview().inset(8)
         }
         
     }
 }
+
+/// 페이지컨트롤, 첫번째 이미지 로드 시간

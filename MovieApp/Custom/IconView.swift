@@ -16,17 +16,16 @@ final class IconView: BaseView {
         $0.tintColor = .movieGray
     }
     
-    private let label = UILabel().then {
-        $0.font = .systemFont(ofSize: 16)
+    let label = UILabel().then {
+        $0.font = .systemFont(ofSize: 12)
         $0.textColor = .movieGray
         $0.textAlignment = .center
         $0.numberOfLines = 0
     }
     
-    init(image: UIImage?, text: String) {
+    init(image: UIImage?) {
         super.init(frame: .zero)
         imageView.image = image
-        label.text = text
     }
 }
 
@@ -44,12 +43,13 @@ extension IconView {
     override func configureLayout() {
         
         imageView.snp.makeConstraints {
-            $0.leading.verticalEdges.equalToSuperview()
+            $0.leading.verticalEdges.equalToSuperview().inset(4)
             $0.width.equalTo(imageView.snp.height)
         }
         
         label.snp.makeConstraints {
-            $0.leading.equalTo(imageView.snp.trailing).offset(2)
+            $0.leading.equalTo(imageView.snp.trailing).offset(4)
+            $0.verticalEdges.equalToSuperview().inset(4)
             $0.trailing.equalToSuperview()
         }
     }

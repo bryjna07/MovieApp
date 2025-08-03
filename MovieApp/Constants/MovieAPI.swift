@@ -21,6 +21,7 @@ enum MovieAPI {
     static let host = "api.themoviedb.org"
     
     enum Path: String {
+        case base = "/3/movie"
         case trending = "/3/trending/movie/day"
         case search = "/3/search/movie"
     }
@@ -31,10 +32,14 @@ enum MovieAPI {
     ]
 }
 
-struct MovieImage {
+enum MovieImage {
 //    static let imageBaseURL = "https://api.themoviedb.org/3/movie/{movieID}/images"
     static func backdropURL(id: Int) -> String {
         return "https://api.themoviedb.org/3/movie/\(id)/images"
+    }
+    
+    static func creditURL(id: Int) -> String {
+        return "https://api.themoviedb.org/3/movie/\(id)/credits?language=ko-KR"
     }
     
     static let imageBaseURL = "https://image.tmdb.org/t/p/"

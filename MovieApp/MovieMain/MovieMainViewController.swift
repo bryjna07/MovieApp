@@ -111,7 +111,8 @@ extension MovieMainViewController: UICollectionViewDelegate, UICollectionViewDat
             let vc = SearchViewController()
             navigationController?.pushViewController(vc, animated: true)
         } else {
-            let vc = MovieDetailViewController(title: "TEST")
+            let movie = movieList[indexPath.item]
+            let vc = MovieDetailViewController(movie: movie)
             navigationController?.pushViewController(vc, animated: true)
         }
     }

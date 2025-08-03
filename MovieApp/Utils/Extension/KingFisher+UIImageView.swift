@@ -13,7 +13,6 @@ extension UIImageView {
     func setKFImage(
         from url: URL?,
         placeholder: UIImage? = nil,
-        cornerRadius: CGFloat = 8
     ) {
         guard let url = url else {
             self.image = placeholder
@@ -21,7 +20,7 @@ extension UIImageView {
         }
 
         let processor = DownsamplingImageProcessor(size: self.bounds.size)
-            |> RoundCornerImageProcessor(cornerRadius: cornerRadius)
+
         let options: KingfisherOptionsInfo = [
             .processor(processor),
             .scaleFactor(UIScreen.main.scale),

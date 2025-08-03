@@ -13,9 +13,13 @@ final class CastCell: BaseTableViewCell {
     
     static let id = "CastCell"
     
-    private let actorImageView = UIImageView().then {
-        $0.backgroundColor = .main
+    var cast: Cast? {
+        didSet {
+            configureUIWithData()
+        }
     }
+    
+    private let actorImageView = UIImageView()
     
     private let nameLabel = UILabel().then {
         $0.text = "text"
@@ -23,7 +27,7 @@ final class CastCell: BaseTableViewCell {
         $0.textColor = .white
     }
     
-    private let englishNameLabel = UILabel().then {
+    private let characterNameLabel = UILabel().then {
         $0.text = "text"
         $0.font = .systemFont(ofSize: 14)
         $0.textColor = .movieLightGray
@@ -37,11 +41,22 @@ final class CastCell: BaseTableViewCell {
 }
 
 extension CastCell {
+    
+    override func configureUIWithData() {
+        guard let cast else { return }
+        nameLabel.text = cast.name
+        characterNameLabel.text = cast.character
+        guard let imageURL = cast.profilePath else { return }
+        let urlString = MovieImage.movieImageURL(size: 200, posterPath: imageURL)
+        let url = URL(string: urlString)
+        actorImageView.setKFImage(from: url)
+    }
+    
     override func configureHierarchy() {
         [
             actorImageView,
             nameLabel,
-            englishNameLabel,
+            characterNameLabel,
         ].forEach {
             contentView.addSubview($0)
         }
@@ -60,7 +75,7 @@ extension CastCell {
             $0.verticalEdges.equalToSuperview().inset(4)
         }
         
-        englishNameLabel.snp.makeConstraints {
+        characterNameLabel.snp.makeConstraints {
             $0.leading.equalTo(nameLabel.snp.trailing).offset(4)
             $0.verticalEdges.equalToSuperview().inset(4)
             $0.trailing.lessThanOrEqualToSuperview().inset(8)

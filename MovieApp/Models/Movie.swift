@@ -53,7 +53,7 @@ struct Backdrop: Codable {
     let filePath: String
     
     enum CodingKeys: String, CodingKey {
-        case filePath = "file_Path"
+        case filePath = "file_path"
     }
 }
 
