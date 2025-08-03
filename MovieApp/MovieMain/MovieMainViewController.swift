@@ -54,7 +54,8 @@ final class MovieMainViewController: BaseViewController {
     }
     
     @objc private func searchButtonTapped() {
-        print(#function)
+        let vc = SearchViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func profileButtonTapped() {
@@ -102,6 +103,16 @@ extension MovieMainViewController: UICollectionViewDelegate, UICollectionViewDat
             guard let cell = mainView.movieCollectionView.dequeueReusableCell(withReuseIdentifier: TodayMovieCell.id, for: indexPath) as? TodayMovieCell else { return UICollectionViewCell() }
             cell.movie = movieList[indexPath.item]
             return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == mainView.recentCollectionView {
+            let vc = SearchViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = MovieDetailViewController(title: "TEST")
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
 }

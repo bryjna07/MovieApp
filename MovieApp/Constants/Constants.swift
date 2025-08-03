@@ -44,7 +44,7 @@ enum Text {
     enum SystemImage {
         static let heart = "heart"
         static let heartFill = "heart.fill"
-        static let start = "star.fill"
+        static let star = "star.fill"
         static let camera = "camera.fill"
         static let film = "film.fill"
         static let calendar = "calendar"

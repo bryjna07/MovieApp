@@ -30,5 +30,7 @@ extension BaseTableViewCell: ConfigureUI {
     
     func configureLayout() { }
     
-    func configureView() { }
+    func configureView() {
+        backgroundColor = .black
+    }
 }
