@@ -26,5 +26,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window?.rootViewController = naviVC
         }
     }
+    
+    func changeRootViewController(_ vc: UIViewController) {
+            guard let window = self.window else { return }
+            
+            window.rootViewController = vc
+        }
 }
 

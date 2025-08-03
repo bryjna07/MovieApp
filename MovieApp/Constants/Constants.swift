@@ -23,5 +23,16 @@ enum Text {
     
     enum Title {
         static let nickname = "닉네임 설정"
+        static let main = "Let's Movie"
+    }
+    
+    enum TabBar {
+        static let firstTitle = "CINEMA"
+        static let secondTitle = "UPCOMING"
+        static let thirdTitle = "PROFILE"
+        
+        static let firstImage = "popcorn"
+        static let secondImage = "film.stack"
+        static let thirdImage = "person.crop.circle"
     }
 }

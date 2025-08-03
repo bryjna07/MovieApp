@@ -33,6 +33,11 @@ final class NicknameViewController: BaseViewController {
     }
 
     @objc private func completeButtonTapped() {
-        print(#function)
+        
+        ///TODO: 닉네임 조건 검증 필요
+        
+        let tabBar = TabBarController()
+        
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(tabBar)
     }
 }
