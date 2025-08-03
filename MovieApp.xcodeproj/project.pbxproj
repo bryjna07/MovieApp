@@ -11,6 +11,7 @@
 		178AA9D42E3E3A6F00651B67 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 178AA9D32E3E3A6F00651B67 /* Toast */; };
 		178AA9D72E3E3A8000651B67 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 178AA9D62E3E3A8000651B67 /* Alamofire */; };
 		178AABC02E3E3FE800651B67 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 178AABBF2E3E3FE800651B67 /* Then */; };
+		178AAFA42E3F913F00651B67 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 178AAFA32E3F913F00651B67 /* Kingfisher */; };
 		178AEC132E3B427900187F5C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 178AEC122E3B427900187F5C /* .gitignore */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,7 @@
 				178AA9D42E3E3A6F00651B67 /* Toast in Frameworks */,
 				178AA9D12E3E3A2500651B67 /* SnapKit in Frameworks */,
 				178AABC02E3E3FE800651B67 /* Then in Frameworks */,
+				178AAFA42E3F913F00651B67 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,6 +98,7 @@
 				178AA9D32E3E3A6F00651B67 /* Toast */,
 				178AA9D62E3E3A8000651B67 /* Alamofire */,
 				178AABBF2E3E3FE800651B67 /* Then */,
+				178AAFA32E3F913F00651B67 /* Kingfisher */,
 			);
 			productName = MovieApp;
 			productReference = 178AEBFA2E3B41F300187F5C /* MovieApp.app */;
@@ -130,6 +133,7 @@
 				178AA9D22E3E3A6F00651B67 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				178AA9D52E3E3A8000651B67 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				178AABBE2E3E3FE800651B67 /* XCRemoteSwiftPackageReference "Then" */,
+				178AAFA22E3F913F00651B67 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 178AEBFB2E3B41F300187F5C /* Products */;
@@ -227,6 +231,8 @@
 		};
 		178AEC102E3B41F500187F5C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 178AEBFC2E3B41F300187F5C /* MovieApp */;
+			baseConfigurationReferenceRelativePath = Application/Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -400,6 +406,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		178AAFA22E3F913F00651B67 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -422,6 +436,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 178AABBE2E3E3FE800651B67 /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		178AAFA32E3F913F00651B67 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 178AAFA22E3F913F00651B67 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

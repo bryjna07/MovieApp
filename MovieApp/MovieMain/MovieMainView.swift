@@ -29,8 +29,6 @@ final class MovieMainView: BaseView {
         $0.scrollDirection = .horizontal
         $0.minimumLineSpacing = 16
         $0.sectionInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
-        let width = (UIScreen.main.bounds.width - 32 - (16 * 3)) / 4
-        $0.itemSize = CGSize(width: width, height: 36)
     }
     
     lazy var recentCollectionView = UICollectionView(frame: .zero, collectionViewLayout: firstlayout).then {
@@ -47,11 +45,11 @@ final class MovieMainView: BaseView {
         $0.textColor = .white
     }
     
+    /// 레이아웃 조정 필요
     private let secondlayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
         $0.minimumLineSpacing = 16
         $0.sectionInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
-        $0.itemSize = CGSize(width: 200, height: 300)
     }
     
     lazy var movieCollectionView = UICollectionView(frame: .zero, collectionViewLayout: secondlayout).then {

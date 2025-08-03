@@ -6,10 +6,19 @@
 //
 
 import UIKit
+import Alamofire
 
 final class MovieMainViewController: BaseViewController {
 
     let mainView = MovieMainView()
+    
+    let networkManager = NetworkManager.shared
+    
+    var searchList: [String] = []
+    
+    var movie: MovieInfo?
+    
+    var movieList: [Movie] = []
     
     override func loadView() {
         view = mainView
@@ -22,6 +31,7 @@ final class MovieMainViewController: BaseViewController {
         setupButtonActions()
 //        mainView.recentCollectionView.isHidden = true
         mainView.emptyView.isHidden = true
+        requestMovie()
     }
     
     override func setupNaviBar() {
@@ -57,14 +67,30 @@ final class MovieMainViewController: BaseViewController {
         /// 검색기록 전체삭제
     }
     
+    private func requestMovie() {
+        guard let url = networkManager.makeURL(path: MovieAPI.Path.trending.rawValue) else { return }
+        print(url.absoluteString)
+        networkManager.fetchData(url: url) {  [weak self] (result: Result<MovieInfo, AFError>) in
+            guard let self else { return }
+            switch result {
+            case .success(let movie):
+                self.movie = movie
+                self.movieList = movie.results
+                mainView.movieCollectionView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }
 
 extension MovieMainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == mainView.recentCollectionView {
-            return 10
+            return searchList.count
         } else {
-            return 10
+            return movieList.count
         }
     }
     
@@ -74,7 +100,22 @@ extension MovieMainViewController: UICollectionViewDelegate, UICollectionViewDat
             return cell
         } else {
             guard let cell = mainView.movieCollectionView.dequeueReusableCell(withReuseIdentifier: TodayMovieCell.id, for: indexPath) as? TodayMovieCell else { return UICollectionViewCell() }
+            cell.movie = movieList[indexPath.item]
             return cell
+        }
+    }
+}
+
+extension MovieMainViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if collectionView == mainView.movieCollectionView {
+            let height = collectionView.bounds.height
+            return CGSize(width: height / 2, height: height)
+        } else {
+            
+            let width = (UIScreen.main.bounds.width - 32 - (16 * 3)) / 4
+            return CGSize(width: width, height: 36)
         }
     }
 }
