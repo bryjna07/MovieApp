@@ -52,7 +52,6 @@ final class NicknameViewController: BaseViewController {
     
     @objc private func completeButtonTapped() {
         
-        ///TODO: 닉네임 조건 검증 필요
         guard let validate else {
             view.makeToast("닉네임을 입력해주세요", position: .top)
             return
@@ -62,10 +61,13 @@ final class NicknameViewController: BaseViewController {
             guard let nickname = nicknameView.nicknameLabel.text else { return }
             showAlert(title: "닉네임 확인", message: "'\(nickname)'으로 하시겠습니까?", ok: "확인") {
                 /// 유저디폴트 저장
+                UserDefaults.standard.set(nickname, forKey: "nickname")
                 
-                let tabBar = TabBarController()
-                
-                (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(tabBar)
+                if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                    let tabBar = TabBarController()
+                    
+                    sceneDelegate.changeRootViewController(tabBar)
+                }
             }
         case .length:
             view.makeToast("닉네임 글자수 확인 필요", position: .top)

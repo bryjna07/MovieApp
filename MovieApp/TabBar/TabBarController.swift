@@ -19,8 +19,8 @@ final class TabBarController: UITabBarController {
     }
     
     private func setupViewControllers() {
-//        let mainVC =
-        let first = UINavigationController(rootViewController: MovieMainViewController()).then {
+        let mainVC = MovieMainViewController()
+        let first = UINavigationController(rootViewController: mainVC).then {
             $0.tabBarItem = UITabBarItem(
                 title: Text.TabBar.firstTitle,
                 image: UIImage(systemName: Text.TabBar.firstImage),
@@ -36,7 +36,8 @@ final class TabBarController: UITabBarController {
             )
         }
         
-        let third = UINavigationController(rootViewController: MovieMainViewController()).then {
+        let profileVC = SettingViewController()
+        let third = UINavigationController(rootViewController: profileVC).then {
             $0.tabBarItem = UITabBarItem(
                 title: Text.TabBar.thirdTitle,
                 image: UIImage(systemName: Text.TabBar.thirdImage),
@@ -44,7 +45,7 @@ final class TabBarController: UITabBarController {
             )
         }
         
-        setViewControllers([first, second, third,], animated: true)
+        setViewControllers([first, second, third,], animated: false)
     }
     
     private func setupTabBar() {
@@ -59,5 +60,6 @@ final class TabBarController: UITabBarController {
         appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.movieGray]
         
         UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
     }
 }

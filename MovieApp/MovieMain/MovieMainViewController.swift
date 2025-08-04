@@ -29,6 +29,7 @@ final class MovieMainViewController: BaseViewController {
         setupNaviBar()
         setupCollectionView()
         setupButtonActions()
+        setProfile()
 //        mainView.recentCollectionView.isHidden = true
         mainView.emptyView.isHidden = true
         requestMovie()
@@ -66,6 +67,14 @@ final class MovieMainViewController: BaseViewController {
     @objc private func deleteButtonTapped() {
         print(#function)
         /// 검색기록 전체삭제
+    }
+    
+    private func setProfile() {
+        if let nickname = UserDefaults.standard.string(forKey: "nickname") {
+            mainView.profileView.nicknameLabel.text = nickname
+        } else {
+            mainView.profileView.nicknameLabel.text = "닉네임 없음"
+        }
     }
     
     private func requestMovie() {

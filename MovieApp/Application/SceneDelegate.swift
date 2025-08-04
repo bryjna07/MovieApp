@@ -10,7 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
@@ -20,17 +20,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             
-            let vc = OnboardingViewController()
-            let naviVC = UINavigationController(rootViewController: vc)
-            
-            self.window?.rootViewController = naviVC
+            if UserDefaults.standard.string(forKey: "nickname") != nil {
+                self.window?.rootViewController = TabBarController()
+            } else {
+                let vc = OnboardingViewController()
+                let naviVC = UINavigationController(rootViewController: vc)
+                self.window?.rootViewController = naviVC
+            }
         }
     }
     
-    func changeRootViewController(_ vc: UIViewController) {
-            guard let window = self.window else { return }
-            
+    func changeRootViewController(_ vc: UIViewController, animated: Bool = true) {
+        guard let window = self.window else { return }
+        
+        if animated {
+            UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve) {
+                window.rootViewController = vc
+            }
+        } else {
             window.rootViewController = vc
         }
+    }
 }
 

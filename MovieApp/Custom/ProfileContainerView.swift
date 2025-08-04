@@ -12,7 +12,6 @@ import SnapKit
 final class ProfileContainerView: BaseView {
 
     let nicknameLabel = UILabel().then {
-        $0.text = "TEST"
         $0.font = .systemFont(ofSize: 18, weight: .medium)
         $0.textColor = .white
     }
