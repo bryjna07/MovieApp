@@ -35,8 +35,18 @@ class BaseViewController: UIViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
-    func showAlert() {
-        // 얼럿 코드
+    func showAlert(title: String, message: String, ok: String, completion: @escaping () -> Void) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        let ok = UIAlertAction(title: ok, style: .default) { _ in
+            completion()
+        }
+        
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        
+        self.present(alert, animated: true)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

@@ -12,8 +12,8 @@ import SnapKit
 
 final class NicknameDetailView: BaseView {
     
-    private let textField = UITextField().then {
-        $0.placeholder = "testtest"
+    let textField = UITextField().then {
+        $0.placeholder = "닉네임을 정해보세요!"
         $0.attributedPlaceholder = NSAttributedString(string: $0.placeholder ?? "", attributes: [.foregroundColor : UIColor.systemGray]) // 플레이스홀더 색상
         $0.backgroundColor = .black
         $0.borderStyle = .roundedRect
@@ -26,8 +26,7 @@ final class NicknameDetailView: BaseView {
         $0.backgroundColor = .movieGray
     }
     
-    private let validLabel = UILabel().then {
-        $0.text = "TESTEsTEst"
+    let validLabel = UILabel().then {
         $0.textColor = .main
         $0.font = .systemFont(ofSize: 14)
     }

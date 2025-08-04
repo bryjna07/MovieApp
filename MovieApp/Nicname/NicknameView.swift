@@ -11,8 +11,7 @@ import SnapKit
 
 final class NicknameView: BaseView {
     
-    private let nicknameLabel = UILabel().then {
-        $0.text = "고래밥99개"
+    let nicknameLabel = UILabel().then {
         $0.textColor = .movieGray
         $0.font = .systemFont(ofSize: 16)
     }
