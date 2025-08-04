@@ -10,17 +10,18 @@ import Alamofire
 
 final class MovieDetailViewController: BaseViewController {
     
-    let detailView = MovieDetailView()
+    private let detailView = MovieDetailView()
     
-    let networkManager = NetworkManager.shared
+    private let networkManager = NetworkManager.shared
     
-    var movie: Movie?
+    private var movie: Movie?
     
-    var backdrop: BackdropInfo?
-    var backdropList: [Backdrop] = []
+    private var backdrop: BackdropInfo?
+    private var backdropList: [Backdrop] = []
+    private var isMoreSynopsis = false
     
-    var castInfo: CastInfo?
-    var castList: [Cast] = []
+    private var castInfo: CastInfo?
+    private var castList: [Cast] = []
     
     init(movie: Movie) {
         super.init(nibName: nil, bundle: nil)
@@ -34,10 +35,14 @@ final class MovieDetailViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: Text.SystemImage.heart), style: .plain, target: self, action: #selector(likeButtonTapped))
         setupTableView()
         fetchBackdrop()
         fetchCast()
+    }
+    
+    override func setupNaviBar() {
+        super.setupNaviBar()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: Text.SystemImage.heart), style: .plain, target: self, action: #selector(likeButtonTapped))
     }
     
     @objc private func likeButtonTapped() {
@@ -81,6 +86,11 @@ final class MovieDetailViewController: BaseViewController {
         }
     }
     
+    // 시놉시스 셀 줄거리 More 버튼
+    @objc private func moreButtonTapped() {
+        isMoreSynopsis.toggle()
+        detailView.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+    }
 }
 
 extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource {
@@ -100,10 +110,14 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SynopsisCell.identifier, for: indexPath) as? SynopsisCell else { return UITableViewCell() }
+            cell.movie = movie
+            cell.explainLabel.numberOfLines = isMoreSynopsis ? 0 : 3
+            cell.button.setTitle(isMoreSynopsis ? "Hide" : "More", for: .normal)
+            cell.button.addTarget(self, action: #selector(moreButtonTapped), for: .touchUpInside)
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CastCell.identifier, for: indexPath) as? CastCell else { return UITableViewCell() }
-            guard let castInfo else { return cell }
+            guard castInfo != nil else { return cell }
             cell.cast = castList[indexPath.row]
             return cell
         }
@@ -116,6 +130,7 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
             }
             header.collectionView.delegate = self
             header.collectionView.dataSource = self
+            header.collectionView.reloadData()
             return header
         } else {
             return nil
@@ -141,14 +156,16 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
 
 extension MovieDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return min(backdropList.count, 5)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BackdropCell.identifier, for: indexPath) as? BackdropCell else { return UICollectionViewCell() }
         cell.movie = movie
-        guard let backdrop else { return cell }
+        guard backdrop != nil else { return cell }
         cell.backdrop = backdropList[indexPath.item]
+        cell.backdropCount = backdropList.count
+        cell.index = indexPath.item
         return cell
     }
     

@@ -23,11 +23,25 @@ final class BackdropCell: BaseCollectionViewCell {
         }
     }
     
+    var backdropCount: Int? {
+        didSet {
+            guard let count = backdropCount else { return }
+            pageControll.numberOfPages = min(count, 5)
+        }
+    }
+    
+    var index: Int? {
+        didSet {
+            guard let index else { return }
+            pageControll.currentPage = index
+            }
+        }
+    
     private let imageView = UIImageView()
     
     private let pageControll = UIPageControl().then {
-        $0.backgroundColor = .movieGray
-        $0.numberOfPages = 5
+        $0.backgroundColor = .darkGray
+        $0.layer.cornerRadius = 8
     }
     
     private let dateIconView = IconView(image: UIImage(systemName: Text.SystemImage.calendar))
@@ -58,7 +72,7 @@ extension BackdropCell {
         let genreText = movie.genreIds.map {
             Genre.genreForString(id: $0)
         }
-        filmIconView.label.text = "\(genreText[0]), \(genreText[1])"
+        filmIconView.label.text = genreText.prefix(2).joined(separator: ", ")
     }
     
     private func setupBackdrop() {
@@ -128,5 +142,3 @@ extension BackdropCell {
         
     }
 }
-
-/// 페이지컨트롤, 첫번째 이미지 로드 시간

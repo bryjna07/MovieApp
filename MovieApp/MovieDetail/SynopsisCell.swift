@@ -11,6 +11,12 @@ import SnapKit
 
 final class SynopsisCell: BaseTableViewCell {
     
+    var movie: Movie? {
+        didSet {
+            configureUIWithData()
+        }
+    }
+    
     let synopsisLabel = UILabel().then {
         $0.text = "Synopsis"
         $0.font = .systemFont(ofSize: 16)
@@ -23,15 +29,24 @@ final class SynopsisCell: BaseTableViewCell {
     }
     
     let explainLabel = UILabel().then {
-        $0.text = "Synopsis"
         $0.font = .systemFont(ofSize: 14)
         $0.textColor = .white
         $0.numberOfLines = 3
     }
-    
 }
 
 extension SynopsisCell {
+    
+    override func configureUIWithData() {
+        guard let movie, let text = movie.overview else { return }
+         
+        if text != "" {
+            explainLabel.text = text
+        } else {
+            explainLabel.text = "준비중입니다."
+        }
+    }
+    
     override func configureHierarchy() {
         [
             synopsisLabel,
