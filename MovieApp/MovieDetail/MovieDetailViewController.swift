@@ -13,6 +13,7 @@ final class MovieDetailViewController: BaseViewController {
     private let detailView = MovieDetailView()
     
     private let networkManager = NetworkManager.shared
+    private let userDefaultsManager = UserDefaultsManager.shared
     
     private var movie: Movie?
     
@@ -43,10 +44,24 @@ final class MovieDetailViewController: BaseViewController {
     override func setupNaviBar() {
         super.setupNaviBar()
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: Text.SystemImage.heart), style: .plain, target: self, action: #selector(likeButtonTapped))
+        updateLikeButton()
+    }
+    
+    private func updateLikeButton() {
+        guard let movie = movie else { return }
+        
+        let isLiked = userDefaultsManager.checkLiked(movieId: movie.id)
+        navigationItem.rightBarButtonItem?.image = UIImage(
+            systemName: isLiked ? "heart.fill" : "heart"
+        )
     }
     
     @objc private func likeButtonTapped() {
-        print(#function) /// 유저디폴드 좋아요 상태변경  
+        guard let movie else { return }
+        
+        let isLiked = !userDefaultsManager.checkLiked(movieId: movie.id)
+        userDefaultsManager.saveLiked(movieId: movie.id, isLiked: isLiked)
+        updateLikeButton()
     }
     
     private func setupTableView() {

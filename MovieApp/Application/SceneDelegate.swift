@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             
-            if UserDefaults.standard.string(forKey: "nickname") != nil {
+            if UserDefaultsManager.shared.getNickname() != nil {
                 self.window?.rootViewController = TabBarController()
             } else {
                 let vc = OnboardingViewController()

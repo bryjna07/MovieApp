@@ -61,7 +61,7 @@ final class NicknameViewController: BaseViewController {
             guard let nickname = nicknameView.nicknameLabel.text else { return }
             showAlert(title: "닉네임 확인", message: "'\(nickname)'으로 하시겠습니까?", ok: "확인") {
                 /// 유저디폴트 저장
-                UserDefaults.standard.set(nickname, forKey: "nickname")
+                UserDefaultsManager.shared.saveNickname(nickname)
                 
                 if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
                     let tabBar = TabBarController()
