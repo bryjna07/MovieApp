@@ -21,7 +21,7 @@ final class DetailHeaderView: UITableViewHeaderFooterView {
     }
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: firstlayout).then {
-        $0.register(BackdropCell.self, forCellWithReuseIdentifier: BackdropCell.id)
+        $0.register(BackdropCell.self, forCellWithReuseIdentifier: BackdropCell.identifier)
         $0.backgroundColor = .black
         $0.showsHorizontalScrollIndicator = false
         $0.isPagingEnabled = true

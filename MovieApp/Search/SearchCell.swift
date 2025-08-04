@@ -12,8 +12,6 @@ import SnapKit
 
 final class SearchCell: BaseTableViewCell {
     
-    static let id = "SearchCell"
-    
     var movie: Movie? {
         didSet {
             configureUIWithData()

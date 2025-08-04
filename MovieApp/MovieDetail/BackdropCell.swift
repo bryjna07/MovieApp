@@ -11,8 +11,6 @@ import SnapKit
 
 final class BackdropCell: BaseCollectionViewCell {
     
-    static let id = "BackdropCell"
-    
     var movie: Movie? {
         didSet {
             configureUIWithData()

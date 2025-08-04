@@ -11,8 +11,6 @@ import SnapKit
 
 final class CastCell: BaseTableViewCell {
     
-    static let id = "CastCell"
-    
     var cast: Cast? {
         didSet {
             configureUIWithData()

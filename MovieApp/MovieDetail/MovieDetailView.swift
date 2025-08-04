@@ -13,8 +13,8 @@ final class MovieDetailView: BaseView {
     
     lazy var tableView = UITableView().then {
         $0.register(DetailHeaderView.self, forHeaderFooterViewReuseIdentifier: DetailHeaderView.id)
-        $0.register(SynopsisCell.self, forCellReuseIdentifier: SynopsisCell.id)
-        $0.register(CastCell.self, forCellReuseIdentifier: CastCell.id)
+        $0.register(SynopsisCell.self, forCellReuseIdentifier: SynopsisCell.identifier)
+        $0.register(CastCell.self, forCellReuseIdentifier: CastCell.identifier)
         $0.rowHeight = UITableView.automaticDimension
         $0.backgroundColor = .black
         $0.allowsSelection = false

@@ -32,7 +32,7 @@ final class MovieMainView: BaseView {
     }
     
     lazy var recentCollectionView = UICollectionView(frame: .zero, collectionViewLayout: firstlayout).then {
-        $0.register(RecentCell.self, forCellWithReuseIdentifier: RecentCell.id)
+        $0.register(RecentCell.self, forCellWithReuseIdentifier: RecentCell.identifier)
         $0.backgroundColor = .black
         $0.showsHorizontalScrollIndicator = false
     }
@@ -53,7 +53,7 @@ final class MovieMainView: BaseView {
     }
     
     lazy var movieCollectionView = UICollectionView(frame: .zero, collectionViewLayout: secondlayout).then {
-        $0.register(TodayMovieCell.self, forCellWithReuseIdentifier: TodayMovieCell.id)
+        $0.register(TodayMovieCell.self, forCellWithReuseIdentifier: TodayMovieCell.identifier)
         $0.backgroundColor = .black
         $0.showsHorizontalScrollIndicator = false
     }

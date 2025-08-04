@@ -23,7 +23,7 @@ final class SearchView: BaseView {
     }
     
     lazy var tableView = UITableView().then {
-        $0.register(SearchCell.self, forCellReuseIdentifier: SearchCell.id)
+        $0.register(SearchCell.self, forCellReuseIdentifier: SearchCell.identifier)
         $0.rowHeight = 140
         $0.backgroundColor = .black
         $0.allowsSelection = false

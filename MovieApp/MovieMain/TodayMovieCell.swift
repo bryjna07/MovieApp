@@ -11,8 +11,6 @@ import SnapKit
 
 final class TodayMovieCell: BaseCollectionViewCell {
     
-    static let id = "TodayMovieCell"
-    
     var movie: Movie? {
         didSet {
             configureUIWithData()

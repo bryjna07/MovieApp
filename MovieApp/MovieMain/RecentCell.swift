@@ -11,8 +11,6 @@ import SnapKit
 
 final class RecentCell: BaseCollectionViewCell {
     
-    static let id = "RecentCell"
-    
     private let nameLabel = UILabel().then {
         $0.text = "ㅇㅇㅇㅇ"
         $0.font = .systemFont(ofSize: 14)

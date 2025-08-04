@@ -11,8 +11,6 @@ import SnapKit
 
 final class SynopsisCell: BaseTableViewCell {
     
-    static let id = "SynopsisCell"
-    
     let synopsisLabel = UILabel().then {
         $0.text = "Synopsis"
         $0.font = .systemFont(ofSize: 16)
