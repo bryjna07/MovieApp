@@ -21,6 +21,8 @@ final class SearchViewController: BaseViewController {
     
     var list: [Movie] = []
     
+    var currentPage = 1
+    
     init(search: String? = nil) {
         super.init(nibName: nil, bundle: nil)
         if let search {
@@ -38,9 +40,7 @@ final class SearchViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "영화 검색"
-        searchView.searchBar.delegate = self
-        searchView.tableView.delegate = self
-        searchView.tableView.dataSource = self
+        setupDelegates()
         searchView.emptyView.isHidden = true
     }
     
@@ -52,6 +52,13 @@ final class SearchViewController: BaseViewController {
             searchView.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
             detailIndex = nil
         }
+    }
+    
+    private func setupDelegates() {
+        searchView.searchBar.delegate = self
+        searchView.tableView.delegate = self
+        searchView.tableView.dataSource = self
+        searchView.tableView.prefetchDataSource = self
     }
     
     private func replaceEmptyView() {
@@ -77,6 +84,29 @@ final class SearchViewController: BaseViewController {
                 self.movie = movie
                 self.list = movie.results
                 replaceEmptyView()
+                searchView.tableView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func prefetchMovie(page: Int = 2) {
+        guard let text = searchView.searchBar.text else { return }
+        let query: [URLQueryItem] = [
+            URLQueryItem(name: "query", value: text),
+            URLQueryItem(name: "include_adult", value: "false"),
+            URLQueryItem(name: "page", value: "\(page)"),
+        ]
+        guard let url = networkManager.makeURL(path: MovieAPI.Path.search.rawValue, query: query) else { return }
+        networkManager.fetchData(url: url) {  [weak self] (result: Result<MovieInfo, AFError>) in
+            guard let self else { return }
+            switch result {
+            case .success(let movie):
+                self.movie = movie
+                self.list.append(contentsOf: movie.results)
+                self.currentPage += 1
+                print(currentPage)
                 searchView.tableView.reloadData()
             case .failure(let error):
                 print(error)
@@ -124,6 +154,15 @@ extension SearchViewController: UISearchBarDelegate {
     }
 }
 
-///TODO: 페이지네이션, 좋아요 버튼, 최근검색어 -> 화면이동 + 셀표시
-/// 최근검색어로 이동 시 키보드 내려진 상태로
-/// 검색결과 없는 경우
+extension SearchViewController: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        
+        let lastItem = indexPaths.map { $0.item }.sorted(by: <).last
+        
+        guard let lastItem else { return }
+        if lastItem >= list.count - 5 {
+            guard let text = searchView.searchBar.text else { return }
+            prefetchMovie(page: currentPage)
+        }
+    }
+}
