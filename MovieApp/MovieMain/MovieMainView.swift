@@ -106,7 +106,7 @@ extension MovieMainView {
         }
         
         movieCollectionView.snp.makeConstraints {
-            $0.top.equalTo(todayMovieLabel.snp.bottom)
+            $0.top.equalTo(todayMovieLabel.snp.bottom).offset(16)
             $0.bottom.horizontalEdges.equalTo(safeAreaLayoutGuide)
         }
     }

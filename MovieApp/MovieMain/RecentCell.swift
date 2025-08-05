@@ -17,7 +17,7 @@ final class RecentCell: BaseCollectionViewCell {
         }
     }
     
-    var deletButtonClosure: (() -> Void)?
+    var deleteButtonClosure: (() -> Void)?
     
     private let nameLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 14)
@@ -55,6 +55,7 @@ extension RecentCell {
         deletButton.snp.makeConstraints {
             $0.leading.greaterThanOrEqualTo(nameLabel.snp.trailing).offset(8)
             $0.verticalEdges.trailing.equalToSuperview().inset(8)
+            $0.width.equalTo(16)
         }
     }
     
@@ -67,7 +68,7 @@ extension RecentCell {
     
     @objc private func deletButtonTapped() {
         print(#function)
-        deletButtonClosure?()
+        deleteButtonClosure?()
     }
     
 }

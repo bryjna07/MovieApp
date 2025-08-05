@@ -112,9 +112,11 @@ final class MovieMainViewController: BaseViewController {
         if recentSearchList == [] {
             mainView.recentCollectionView.isHidden = true
             mainView.emptyView.isHidden = false
+            mainView.allDeleteButton.isHidden = true
         } else {
             mainView.recentCollectionView.isHidden = false
             mainView.emptyView.isHidden = true
+            mainView.allDeleteButton.isHidden = false
         }
     }
     
@@ -151,7 +153,7 @@ extension MovieMainViewController: UICollectionViewDelegate, UICollectionViewDat
             let recent = recentSearchList[indexPath.row]
             
             cell.recent = recent
-            cell.deletButtonClosure = { [weak self] in
+            cell.deleteButtonClosure = { [weak self] in
                 guard let self else { return }
                 self.userDefaultsManager.deleteRecent(recent)
                 if let array = self.userDefaultsManager.getRecent() {
