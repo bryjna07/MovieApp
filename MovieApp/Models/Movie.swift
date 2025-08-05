@@ -20,7 +20,7 @@ struct MovieInfo: Codable {
     }
 }
 
-struct Movie: Codable {
+struct Movie: Codable, Equatable {
     let id: Int
     let backdropPath: String?
     let title: String

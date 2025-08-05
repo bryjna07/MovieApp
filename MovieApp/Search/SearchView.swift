@@ -22,6 +22,8 @@ final class SearchView: BaseView {
         $0.searchTextField.textColor = .white // 입력 색상
     }
     
+    let emptyView = EmptyView(text: "원하는 검색결과를 찾지 못했습니다")
+    
     lazy var tableView = UITableView().then {
         $0.register(SearchCell.self, forCellReuseIdentifier: SearchCell.identifier)
         $0.rowHeight = 140
@@ -37,6 +39,7 @@ extension SearchView {
         [
             searchBar,
             tableView,
+            emptyView,
         ].forEach {
             addSubview($0)
         }
@@ -50,6 +53,12 @@ extension SearchView {
         tableView.snp.makeConstraints {
             $0.top.equalTo(searchBar.snp.bottom).offset(16)
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(16)
+            $0.bottom.equalTo(safeAreaLayoutGuide)
+        }
+        
+        emptyView.snp.makeConstraints {
+            $0.top.equalTo(searchBar.snp.bottom).offset(16)
+            $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
             $0.bottom.equalTo(safeAreaLayoutGuide)
         }
     }

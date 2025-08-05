@@ -41,15 +41,26 @@ final class SearchViewController: BaseViewController {
         searchView.searchBar.delegate = self
         searchView.tableView.delegate = self
         searchView.tableView.dataSource = self
+        searchView.emptyView.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         // detail -> Search 좋아요 버튼 상태 업데이트를 위한 리로드
         if let index = detailIndex {
             searchView.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
             detailIndex = nil
+        }
+    }
+    
+    private func replaceEmptyView() {
+        if list == [] {
+            searchView.emptyView.isHidden = false
+            searchView.tableView.isHidden = true
+        } else {
+            searchView.emptyView.isHidden = true
+            searchView.tableView.isHidden = false
         }
     }
     
@@ -65,6 +76,7 @@ final class SearchViewController: BaseViewController {
             case .success(let movie):
                 self.movie = movie
                 self.list = movie.results
+                replaceEmptyView()
                 searchView.tableView.reloadData()
             case .failure(let error):
                 print(error)
