@@ -20,7 +20,6 @@ final class ProfileContainerView: BaseView {
         var config = UIButton.Configuration.plain()
         config.imagePlacement = .trailing
         config.imagePadding = 8
-        $0.setTitle("25.08.03 가입", for: .normal)
         $0.setImage(UIImage(systemName: Text.SystemImage.rightButton), for: .normal)
         $0.tintColor = .movieGray
         $0.configuration = config
@@ -72,5 +71,7 @@ extension ProfileContainerView {
     
     override func configureView() {
         backgroundColor = #colorLiteral(red: 0.2070707071, green: 0.2070707071, blue: 0.2070707071, alpha: 1)
+        let dateString = UserDefaultsManager.shared.getJoinDate()
+        button.setTitle("\(dateString) 가입", for: .normal)
     }
 }

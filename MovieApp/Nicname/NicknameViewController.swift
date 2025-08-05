@@ -84,6 +84,7 @@ final class NicknameViewController: BaseViewController {
                 guard let self else { return }
                 /// 유저디폴트 저장
                 UserDefaultsManager.shared.saveNickname(nickname)
+                UserDefaultsManager.shared.saveJoinDate()
                 switch self.type {
                 case .new:
                     if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {

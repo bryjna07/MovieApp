@@ -14,6 +14,7 @@ final class UserDefaultsManager {
     
     // 유저디폴트 키
     private let nicknameKey = "nickname"
+    private let joinDateKey = "joinDate"
     private let recentArrayKey = "recentArray"
     private let likeKey = "like"
     
@@ -26,6 +27,18 @@ final class UserDefaultsManager {
     
     func saveNickname(_ nickname: String) {
         return userDefaults.set(nickname, forKey: nicknameKey)
+    }
+    
+    //MARK: - 가입날짜
+    func getJoinDate() -> String {
+        guard let dateString = userDefaults.string(forKey: joinDateKey) else { return "" }
+        return dateString
+    }
+    
+    func saveJoinDate() {
+        let date = Date()
+        let dateString = DateFormatManager.shared.formatDate(date: date)
+        return userDefaults.set(dateString, forKey: joinDateKey)
     }
     
     //MARK: - 최근 검색어

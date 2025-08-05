@@ -102,7 +102,7 @@ final class MovieMainViewController: BaseViewController {
     }
     
     private func setProfile() {
-        if let nickname = UserDefaults.standard.string(forKey: "nickname") {
+        if let nickname = userDefaultsManager.getNickname() {
             mainView.profileView.nicknameLabel.text = nickname
         } else {
             mainView.profileView.nicknameLabel.text = "닉네임 없음"

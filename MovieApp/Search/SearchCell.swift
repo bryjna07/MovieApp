@@ -60,7 +60,7 @@ extension SearchCell {
     override func configureUIWithData() {
         guard let movie else { return }
         nameLabel.text = movie.title
-        dateLabel.text = movie.releaseDate
+        dateLabel.text = movie.formattedReleaseDate
         guard let imageURL = movie.posterPath else { return }
         let urlString = MovieImage.movieImageURL(size: 200, posterPath: imageURL)
         let url = URL(string: urlString)

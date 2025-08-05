@@ -40,6 +40,10 @@ struct Movie: Codable {
         case releaseDate = "release_date"
         case voteAverage = "vote_average"
     }
+    
+    var formattedReleaseDate: String {
+        return DateFormatManager.shared.formatDateString(dateString: releaseDate)
+    }
 }
 
 // MARK: - Backdrop
