@@ -24,6 +24,7 @@ final class SearchViewController: BaseViewController {
     init(search: String? = nil) {
         super.init(nibName: nil, bundle: nil)
         if let search {
+            searchView.searchBar.text = search
             fetchSearchMovie(searchText: search)
         } else {
             searchView.searchBar.searchTextField.becomeFirstResponder()

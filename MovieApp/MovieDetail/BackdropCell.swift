@@ -69,10 +69,7 @@ extension BackdropCell {
         guard let movie else { return }
         dateIconView.label.text = movie.releaseDate
         starIconView.label.text = "\(movie.voteAverage)"
-        let genreText = movie.genreIds.map {
-            Genre.genreForString(id: $0)
-        }
-        filmIconView.label.text = genreText.prefix(2).joined(separator: ", ")
+        filmIconView.label.text = movie.transfromGenreArray.joined(separator: ", ")
     }
     
     private func setupBackdrop() {

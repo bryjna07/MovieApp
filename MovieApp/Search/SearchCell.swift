@@ -38,10 +38,6 @@ final class SearchCell: BaseTableViewCell {
         $0.textColor = .movieGray
     }
     
-    private let firstTagLabel = GenreTagLabel(title: "장르1")
-    
-    private let secondTagLabel = GenreTagLabel(title: "장르2")
-    
     private let tagStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 4
@@ -53,6 +49,12 @@ final class SearchCell: BaseTableViewCell {
         $0.tintColor = .main
     }
     
+    override func prepareForReuse() {
+        tagStackView.arrangedSubviews.forEach {
+            tagStackView.removeArrangedSubview($0)
+        }
+    }
+    
 }
 
 extension SearchCell {
@@ -61,6 +63,17 @@ extension SearchCell {
         guard let movie else { return }
         nameLabel.text = movie.title
         dateLabel.text = movie.formattedReleaseDate
+        let array = movie.transfromGenreArray
+        tagStackView.arrangedSubviews.forEach {
+            tagStackView.removeArrangedSubview($0)
+        }
+        let labelArray = array.map {
+            GenreTagLabel(title: $0)
+        }
+        labelArray.forEach {
+            tagStackView.addArrangedSubview($0)
+        }
+        
         guard let imageURL = movie.posterPath else { return }
         let urlString = MovieImage.movieImageURL(size: 200, posterPath: imageURL)
         let url = URL(string: urlString)
@@ -76,12 +89,6 @@ extension SearchCell {
     }
     
     override func configureHierarchy() {
-        [
-            firstTagLabel,
-            secondTagLabel,
-        ].forEach {
-            tagStackView.addArrangedSubview($0)
-        }
         
         [
             movieImageView,
@@ -95,14 +102,6 @@ extension SearchCell {
     }
     
     override func configureLayout() {
-        
-        firstTagLabel.snp.makeConstraints {
-            $0.width.equalTo(36)
-        }
-        
-        secondTagLabel.snp.makeConstraints {
-            $0.width.equalTo(36)
-        }
         
         movieImageView.snp.makeConstraints {
             $0.leading.verticalEdges.equalToSuperview().inset(16)

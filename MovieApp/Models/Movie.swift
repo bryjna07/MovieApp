@@ -44,6 +44,14 @@ struct Movie: Codable {
     var formattedReleaseDate: String {
         return DateFormatManager.shared.formatDateString(dateString: releaseDate)
     }
+    
+    var transfromGenreArray: [String] {
+        let intArray = Array(genreIds.prefix(2))
+        let stringArray = intArray.map {
+            Genre.genreForString(id: $0)
+        }
+        return stringArray
+    }
 }
 
 // MARK: - Backdrop
