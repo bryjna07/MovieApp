@@ -11,7 +11,6 @@ import Alamofire
 final class MovieDetailViewController: BaseViewController {
     
     private let detailView = MovieDetailView()
-    
     private let networkManager = NetworkManager.shared
     private let userDefaultsManager = UserDefaultsManager.shared
     
@@ -42,25 +41,11 @@ final class MovieDetailViewController: BaseViewController {
         fetchCast()
     }
     
+    //MARK: - setup
+    
     override func setupNaviBar() {
         super.setupNaviBar()
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: Text.SystemImage.heart), style: .plain, target: self, action: #selector(likeButtonTapped))
-        updateLikeButton()
-    }
-    
-    private func updateLikeButton() {
-        guard let movie = movie else { return }
-        
-        let isLiked = userDefaultsManager.checkLiked(movieId: movie.id)
-        let imageName = isLiked ? Text.SystemImage.heartFill : Text.SystemImage.heart
-        navigationItem.rightBarButtonItem?.image = UIImage(systemName: imageName)
-    }
-    
-    @objc private func likeButtonTapped() {
-        guard let movie else { return }
-        
-        let isLiked = !userDefaultsManager.checkLiked(movieId: movie.id)
-        userDefaultsManager.saveLiked(movieId: movie.id, isLiked: isLiked)
         updateLikeButton()
     }
     
@@ -73,6 +58,34 @@ final class MovieDetailViewController: BaseViewController {
         detailView.headerView.collectionView.delegate = self
         detailView.headerView.collectionView.dataSource = self
     }
+    
+    //MARK: - Logic
+    
+    // 좋아요 상태 업데이트
+    private func updateLikeButton() {
+        guard let movie = movie else { return }
+        
+        let isLiked = userDefaultsManager.checkLiked(movieId: movie.id)
+        let imageName = isLiked ? Text.SystemImage.heartFill : Text.SystemImage.heart
+        navigationItem.rightBarButtonItem?.image = UIImage(systemName: imageName)
+    }
+    
+    // 좋아요 버튼 클릭 액션
+    @objc private func likeButtonTapped() {
+        guard let movie else { return }
+        
+        let isLiked = !userDefaultsManager.checkLiked(movieId: movie.id)
+        userDefaultsManager.saveLiked(movieId: movie.id, isLiked: isLiked)
+        updateLikeButton()
+    }
+    
+    // 시놉시스 셀 줄거리 More 버튼
+    @objc private func moreButtonTapped() {
+        isMoreSynopsis.toggle()
+        detailView.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+    }
+    
+    //MARK: - Networking
     
     private func fetchBackdrop() {
         guard let movie, let url = URL(string: MovieImage.backdropURL(id: movie.id)) else { return }
@@ -103,14 +116,9 @@ final class MovieDetailViewController: BaseViewController {
             }
         }
     }
-    
-    // 시놉시스 셀 줄거리 More 버튼
-    @objc private func moreButtonTapped() {
-        isMoreSynopsis.toggle()
-        detailView.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-    }
 }
 
+//MARK: - TableView Protocols
 extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -150,6 +158,8 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
     }
 }
 
+//MARK: - CollectionView Protocols
+// 테이블뷰의 헤더뷰 안에 있는 컬렉션뷰
 extension MovieDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return min(backdropList.count, 5)

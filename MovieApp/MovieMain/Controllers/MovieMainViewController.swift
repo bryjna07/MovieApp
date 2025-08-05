@@ -11,19 +11,12 @@ import Alamofire
 final class MovieMainViewController: BaseViewController {
 
     private let mainView = MovieMainView()
-    
     private let networkManager = NetworkManager.shared
-    
     private let userDefaultsManager = UserDefaultsManager.shared
     
     private var recentSearchList: [String] = []
-    
     private var movie: MovieInfo?
-    
     private var movieList: [Movie] = []
-    
-//    // detail -> Main 리로드 위한 인덱스
-//    var detailIndex: Int?
     
     override func loadView() {
         view = mainView
@@ -40,12 +33,6 @@ final class MovieMainViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-//        // detail -> Main 좋아요 버튼 상태 업데이트를 위한 리로드
-//        if let index = detailIndex {
-//            mainView.movieCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
-//            detailIndex = nil
-//        }
         if let array = userDefaultsManager.getRecent() {
             recentSearchList = array
             mainView.recentCollectionView.reloadData()
@@ -64,7 +51,6 @@ final class MovieMainViewController: BaseViewController {
     private func setupCollectionView() {
         mainView.recentCollectionView.delegate = self
         mainView.recentCollectionView.dataSource = self
-        
         mainView.movieCollectionView.delegate = self
         mainView.movieCollectionView.dataSource = self
     }
@@ -74,11 +60,13 @@ final class MovieMainViewController: BaseViewController {
         mainView.allDeleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
     }
     
+    // 서치뷰 화면이동
     @objc private func searchButtonTapped() {
         let vc = SearchViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    // 프로필 버튼 -> 닉네임 수정 모달
     @objc private func profileButtonTapped() {
         let vc = NicknameViewController(type: .edit)
         let naviVC = UINavigationController(rootViewController: vc)
@@ -92,6 +80,7 @@ final class MovieMainViewController: BaseViewController {
         present(naviVC, animated: true)
     }
     
+    // 전체삭제 버튼 액션
     @objc private func deleteButtonTapped() {
         userDefaultsManager.allDeleteRecent()
         recentSearchList = []
@@ -99,6 +88,7 @@ final class MovieMainViewController: BaseViewController {
         replaceEmptyView()
     }
     
+    // 프로필뷰 세팅
     private func setProfile() {
         if let nickname = userDefaultsManager.getNickname() {
             mainView.profileView.nicknameLabel.text = nickname
@@ -107,11 +97,13 @@ final class MovieMainViewController: BaseViewController {
         }
     }
     
+    // 무비박스 갯수 업데이트
     private func updateMovieBox() {
         let likeCount = userDefaultsManager.getlikeCount()
         mainView.profileView.movieBoxLabel.text = "\(likeCount)개의 무비박스 보관중"
     }
     
+    // 최근검색어 없을 시 예외처리
     private func replaceEmptyView() {
         if recentSearchList == [] {
             mainView.recentCollectionView.isHidden = true
@@ -140,6 +132,7 @@ final class MovieMainViewController: BaseViewController {
     }
 }
 
+//MARK: - CollectionView Protocols
 extension MovieMainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -154,8 +147,9 @@ extension MovieMainViewController: UICollectionViewDelegate, UICollectionViewDat
         if collectionView == mainView.recentCollectionView {
             guard let cell = mainView.recentCollectionView.dequeueReusableCell(withReuseIdentifier: RecentCell.identifier, for: indexPath) as? RecentCell else { return UICollectionViewCell() }
             let recent = recentSearchList[indexPath.row]
-            
             cell.recent = recent
+            
+            // 최근검색어 개별 삭제 클로저
             cell.deleteButtonClosure = { [weak self] in
                 guard let self else { return }
                 self.userDefaultsManager.deleteRecent(recent)
@@ -190,7 +184,6 @@ extension MovieMainViewController: UICollectionViewDelegate, UICollectionViewDat
             navigationController?.pushViewController(vc, animated: true)
         } else {
             let movie = movieList[indexPath.item]
-//            detailIndex = indexPath.item
             let vc = MovieDetailViewController(movie: movie)
             navigationController?.pushViewController(vc, animated: true)
         }
