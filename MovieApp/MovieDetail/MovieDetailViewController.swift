@@ -99,7 +99,7 @@ final class MovieDetailViewController: BaseViewController {
             case .success(let cast):
                 self.castInfo = cast
                 self.castList = cast.cast
-                detailView.headerView.collectionView.reloadData()
+                detailView.tableView.reloadData()
             case .failure(let error):
                 print(error)
             }
@@ -123,7 +123,7 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
         if section == 0 {
             return 1
         } else {
-            return 10
+            return castList.count
         }
     }
     

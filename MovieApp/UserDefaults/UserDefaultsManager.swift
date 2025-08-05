@@ -14,7 +14,10 @@ final class UserDefaultsManager {
     
     // 유저디폴트 키
     private let nicknameKey = "nickname"
+    private let recentArrayKey = "recentArray"
     private let likeKey = "like"
+    
+    //MARK: - 닉네임
     
     func getNickname() -> String? {
         let nickname = userDefaults.string(forKey: nicknameKey)
@@ -24,6 +27,41 @@ final class UserDefaultsManager {
     func saveNickname(_ nickname: String) {
         return userDefaults.set(nickname, forKey: nicknameKey)
     }
+    
+    //MARK: - 최근 검색어
+    
+    func getRecent() -> [String]? {
+        let recent = userDefaults.array(forKey: recentArrayKey) as? [String]
+        return recent
+    }
+    
+    func saveRecent(_ text: String) {
+        if var array = getRecent() {
+            guard !array.contains(text) else { return }
+            array.insert(text, at: 0)
+            return userDefaults.set(array, forKey: recentArrayKey)
+        } else {
+            let array = [text]
+            return userDefaults.set(array, forKey: recentArrayKey)
+        }
+    }
+    
+    // 개별 삭제
+    func deleteRecent(_ text: String) {
+        guard var array = getRecent() else { return }
+        if let index = array.firstIndex(of: text) {
+            array.remove(at: index)
+        }
+        return userDefaults.set(array, forKey: recentArrayKey)
+    }
+    
+    // 전체 삭제
+    func allDeleteRecent() {
+        guard getRecent() != nil else { return }
+        return userDefaults.removeObject(forKey: recentArrayKey)
+    }
+    
+    //MARK: - 좋아요
     
     func checkLiked(movieId: Int) -> Bool {
         guard let likeDict = userDefaults.dictionary(forKey: likeKey) as? [String: Bool] else { return false }

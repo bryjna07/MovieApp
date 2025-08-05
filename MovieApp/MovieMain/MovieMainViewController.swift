@@ -10,15 +10,17 @@ import Alamofire
 
 final class MovieMainViewController: BaseViewController {
 
-    let mainView = MovieMainView()
+    private let mainView = MovieMainView()
     
-    let networkManager = NetworkManager.shared
+    private let networkManager = NetworkManager.shared
     
-    var recentSearchList: [String] = []
+    private let userDefaultsManager = UserDefaultsManager.shared
     
-    var movie: MovieInfo?
+    private var recentSearchList: [String] = []
     
-    var movieList: [Movie] = []
+    private var movie: MovieInfo?
+    
+    private var movieList: [Movie] = []
     
 //    // detail -> Main 리로드 위한 인덱스
 //    var detailIndex: Int?
@@ -33,8 +35,6 @@ final class MovieMainViewController: BaseViewController {
         setupCollectionView()
         setupButtonActions()
         setProfile()
-//        mainView.recentCollectionView.isHidden = true
-        mainView.emptyView.isHidden = true
         requestMovie()
     }
     
@@ -46,6 +46,11 @@ final class MovieMainViewController: BaseViewController {
 //            mainView.movieCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
 //            detailIndex = nil
 //        }
+        if let array = userDefaultsManager.getRecent() {
+            recentSearchList = array
+            mainView.recentCollectionView.reloadData()
+        }
+        replaceEmptyView()
         mainView.movieCollectionView.reloadData()
     }
     
@@ -80,7 +85,10 @@ final class MovieMainViewController: BaseViewController {
     
     @objc private func deleteButtonTapped() {
         print(#function)
-        /// 검색기록 전체삭제
+        userDefaultsManager.allDeleteRecent()
+        recentSearchList = []
+        mainView.recentCollectionView.reloadData()
+        replaceEmptyView()
     }
     
     private func setProfile() {
@@ -88,6 +96,16 @@ final class MovieMainViewController: BaseViewController {
             mainView.profileView.nicknameLabel.text = nickname
         } else {
             mainView.profileView.nicknameLabel.text = "닉네임 없음"
+        }
+    }
+    
+    private func replaceEmptyView() {
+        if recentSearchList == [] {
+            mainView.recentCollectionView.isHidden = true
+            mainView.emptyView.isHidden = false
+        } else {
+            mainView.recentCollectionView.isHidden = false
+            mainView.emptyView.isHidden = true
         }
     }
     
@@ -121,7 +139,20 @@ extension MovieMainViewController: UICollectionViewDelegate, UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == mainView.recentCollectionView {
             guard let cell = mainView.recentCollectionView.dequeueReusableCell(withReuseIdentifier: RecentCell.identifier, for: indexPath) as? RecentCell else { return UICollectionViewCell() }
+            let recent = recentSearchList[indexPath.row]
+            
+            cell.recent = recent
+            cell.deletButtonClosure = { [weak self] in
+                guard let self else { return }
+                self.userDefaultsManager.deleteRecent(recent)
+                if let array = self.userDefaultsManager.getRecent() {
+                    self.recentSearchList = array
+                    self.replaceEmptyView()
+                }
+                self.mainView.recentCollectionView.reloadData()
+            }
             return cell
+            
         } else {
             guard let cell = mainView.movieCollectionView.dequeueReusableCell(withReuseIdentifier: TodayMovieCell.identifier, for: indexPath) as? TodayMovieCell else { return UICollectionViewCell() }
             
@@ -140,7 +171,7 @@ extension MovieMainViewController: UICollectionViewDelegate, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == mainView.recentCollectionView {
-            let vc = SearchViewController()
+            let vc = SearchViewController(search: recentSearchList[indexPath.row])
             navigationController?.pushViewController(vc, animated: true)
         } else {
             let movie = movieList[indexPath.item]

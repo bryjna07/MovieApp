@@ -21,6 +21,15 @@ final class SearchViewController: BaseViewController {
     
     var list: [Movie] = []
     
+    init(search: String? = nil) {
+        super.init(nibName: nil, bundle: nil)
+        if let search {
+            fetchSearchMovie(searchText: search)
+        } else {
+            searchView.searchBar.searchTextField.becomeFirstResponder()
+        }
+    }
+    
     override func loadView() {
         view = searchView
     }
@@ -28,7 +37,6 @@ final class SearchViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "영화 검색"
-        searchView.searchBar.searchTextField.becomeFirstResponder()
         searchView.searchBar.delegate = self
         searchView.tableView.delegate = self
         searchView.tableView.dataSource = self
@@ -41,6 +49,25 @@ final class SearchViewController: BaseViewController {
         if let index = detailIndex {
             searchView.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
             detailIndex = nil
+        }
+    }
+    
+    func fetchSearchMovie(searchText: String) {
+        let query: [URLQueryItem] = [
+            URLQueryItem(name: "query", value: searchText),
+            URLQueryItem(name: "include_adult", value: "false"),
+        ]
+        guard let url = networkManager.makeURL(path: MovieAPI.Path.search.rawValue, query: query) else { return }
+        networkManager.fetchData(url: url) {  [weak self] (result: Result<MovieInfo, AFError>) in
+            guard let self else { return }
+            switch result {
+            case .success(let movie):
+                self.movie = movie
+                self.list = movie.results
+                searchView.tableView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
         }
     }
 }
@@ -78,23 +105,9 @@ extension SearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let text = searchBar.text, !text.trimmingCharacters(in: .whitespaces).isEmpty else { return }
-        let query: [URLQueryItem] = [
-            URLQueryItem(name: "query", value: text),
-            URLQueryItem(name: "include_adult", value: "false"),
-        ]
-        guard let url = networkManager.makeURL(path: MovieAPI.Path.search.rawValue, query: query) else { return }
-        networkManager.fetchData(url: url) {  [weak self] (result: Result<MovieInfo, AFError>) in
-            guard let self else { return }
-            switch result {
-            case .success(let movie):
-                self.movie = movie
-                self.list = movie.results
-                view.endEditing(true)
-                searchView.tableView.reloadData()
-            case .failure(let error):
-                print(error)
-            }
-        }
+        fetchSearchMovie(searchText: text)
+        view.endEditing(true)
+        UserDefaultsManager.shared.saveRecent(text)
     }
 }
 

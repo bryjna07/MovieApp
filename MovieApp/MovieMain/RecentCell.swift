@@ -11,23 +11,37 @@ import SnapKit
 
 final class RecentCell: BaseCollectionViewCell {
     
+    var recent: String? {
+        didSet {
+            configureUIWithData()
+        }
+    }
+    
+    var deletButtonClosure: (() -> Void)?
+    
     private let nameLabel = UILabel().then {
-        $0.text = "ㅇㅇㅇㅇ"
         $0.font = .systemFont(ofSize: 14)
         $0.textColor = .black
     }
     
-    private let imageView = UIImageView().then {
-        $0.image = UIImage(systemName: Text.SystemImage.xmark)
+    private let deletButton = UIButton().then {
+        $0.setImage(UIImage(systemName: Text.SystemImage.xmark), for: .normal)
         $0.tintColor = .black
     }
+
 }
 
 extension RecentCell {
+    
+    override func configureUIWithData() {
+        guard let recent else { return }
+        nameLabel.text = recent
+    }
+    
     override func configureHierarchy() {
         [
             nameLabel,
-            imageView
+            deletButton
         ].forEach {
             contentView.addSubview($0)
         }
@@ -38,7 +52,7 @@ extension RecentCell {
             $0.leading.verticalEdges.equalToSuperview().inset(8)
         }
         
-        imageView.snp.makeConstraints {
+        deletButton.snp.makeConstraints {
             $0.leading.greaterThanOrEqualTo(nameLabel.snp.trailing).offset(8)
             $0.verticalEdges.trailing.equalToSuperview().inset(8)
         }
@@ -48,6 +62,12 @@ extension RecentCell {
         contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 16
         contentView.clipsToBounds = true
+        deletButton.addTarget(self, action: #selector(deletButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func deletButtonTapped() {
+        print(#function)
+        deletButtonClosure?()
     }
     
 }

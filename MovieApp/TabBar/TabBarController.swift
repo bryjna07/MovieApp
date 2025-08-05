@@ -27,7 +27,8 @@ final class TabBarController: UITabBarController {
             )
         }
         
-        let second = UINavigationController(rootViewController: MovieMainViewController()).then {
+        let upComingVC = UpcomingViewController()
+        let second = UINavigationController(rootViewController: upComingVC).then {
             $0.tabBarItem = UITabBarItem(
                 title: Text.TabBar.secondTitle,
                 image: UIImage(systemName: Text.TabBar.secondImage),
