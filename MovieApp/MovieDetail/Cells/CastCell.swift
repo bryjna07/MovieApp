@@ -20,13 +20,11 @@ final class CastCell: BaseTableViewCell {
     private let actorImageView = UIImageView()
     
     private let nameLabel = UILabel().then {
-        $0.text = "text"
         $0.font = .systemFont(ofSize: 14)
         $0.textColor = .white
     }
     
     private let characterNameLabel = UILabel().then {
-        $0.text = "text"
         $0.font = .systemFont(ofSize: 14)
         $0.textColor = .movieLightGray
     }

@@ -149,11 +149,20 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
         }
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 1 {
-            return "Cast"
+            guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: CastHeaderView.identifier) as? CastHeaderView else { return nil }
+            return view
         } else {
             return nil
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 1 {
+            return 30
+        } else {
+            return 0
         }
     }
 }

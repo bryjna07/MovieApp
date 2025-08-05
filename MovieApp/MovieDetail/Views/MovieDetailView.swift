@@ -16,6 +16,7 @@ final class MovieDetailView: BaseView {
     lazy var tableView = UITableView().then {
         headerView.frame = CGRect(x: 0, y: 0, width: $0.bounds.width, height: 300)
         $0.tableHeaderView = headerView
+        $0.register(CastHeaderView.self, forHeaderFooterViewReuseIdentifier: CastHeaderView.identifier)
         $0.register(SynopsisCell.self, forCellReuseIdentifier: SynopsisCell.identifier)
         $0.register(CastCell.self, forCellReuseIdentifier: CastCell.identifier)
         $0.rowHeight = UITableView.automaticDimension

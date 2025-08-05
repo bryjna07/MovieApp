@@ -19,7 +19,7 @@ final class SynopsisCell: BaseTableViewCell {
     
     let synopsisLabel = UILabel().then {
         $0.text = "Synopsis"
-        $0.font = .systemFont(ofSize: 16)
+        $0.font = .systemFont(ofSize: 18, weight: .medium)
         $0.textColor = .white
     }
     
