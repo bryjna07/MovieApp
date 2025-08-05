@@ -22,16 +22,15 @@ final class ProfileContainerView: BaseView {
         config.imagePadding = 8
         $0.setTitle("25.08.03 가입", for: .normal)
         $0.setImage(UIImage(systemName: Text.SystemImage.rightButton), for: .normal)
-        $0.tintColor = .movieLightGray
+        $0.tintColor = .movieGray
         $0.configuration = config
     }
     
     let movieBoxLabel = UILabel().then {
-        $0.backgroundColor = .main
+        $0.backgroundColor = #colorLiteral(red: 0.3311418841, green: 0.4141414141, blue: 0.2714339831, alpha: 1)
         $0.layer.cornerRadius = 16
         $0.clipsToBounds = true
-        $0.text = "0개의 무비박스 보관중"
-        $0.font = .systemFont(ofSize: 14)
+        $0.font = .systemFont(ofSize: 14, weight: .medium)
         $0.textAlignment = .center
         $0.textColor = .white
     }
@@ -72,6 +71,6 @@ extension ProfileContainerView {
     }
     
     override func configureView() {
-        backgroundColor = .movieGray
+        backgroundColor = #colorLiteral(red: 0.2070707071, green: 0.2070707071, blue: 0.2070707071, alpha: 1)
     }
 }

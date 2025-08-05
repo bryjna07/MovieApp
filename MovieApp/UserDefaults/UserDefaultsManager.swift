@@ -73,5 +73,23 @@ final class UserDefaultsManager {
         var likeDict = userDefaults.dictionary(forKey: likeKey) as? [String: Bool] ?? [:]
         likeDict[String(movieId)] = isLiked
         return userDefaults.set(likeDict, forKey: likeKey)
+//        if var likeDict = userDefaults.dictionary(forKey: likeKey) as? [String: Bool] {
+//            likeDict[String(movieId)] = isLiked
+//            return userDefaults.set(likeDict, forKey: likeKey)
+//        } else {
+//            let likeDict = [String(movieId): isLiked]
+//            return userDefaults.set(likeDict, forKey: likeKey)
+//        }
+    }
+    
+//    func deleteLiked(movieId: Int, isLiked: Bool) {
+//        guard var likeDict = userDefaults.dictionary(forKey: likeKey) as? [String: Bool] else { return }
+//        likeDict.removeValue(forKey: String(movieId))
+//    }
+    
+    func getlikeCount() -> Int {
+        guard let likeDict = userDefaults.dictionary(forKey: likeKey) as? [String: Bool] else { return 0 }
+        let likeNum = likeDict.filter { $0.value == true }.count
+        return likeNum
     }
 }

@@ -52,6 +52,7 @@ final class MovieMainViewController: BaseViewController {
         }
         replaceEmptyView()
         mainView.movieCollectionView.reloadData()
+        updateMovieBox()
     }
     
     override func setupNaviBar() {
@@ -106,6 +107,11 @@ final class MovieMainViewController: BaseViewController {
         } else {
             mainView.profileView.nicknameLabel.text = "닉네임 없음"
         }
+    }
+    
+    private func updateMovieBox() {
+        let likeCount = userDefaultsManager.getlikeCount()
+        mainView.profileView.movieBoxLabel.text = "\(likeCount)개의 무비박스 보관중"
     }
     
     private func replaceEmptyView() {
@@ -170,10 +176,11 @@ extension MovieMainViewController: UICollectionViewDelegate, UICollectionViewDat
             let movie = self.movieList[indexPath.item]
             
             // 좋아요 버튼 클로저
-            cell.likeButtonClosure = {
+            cell.likeButtonClosure = { [weak self] in
                 let isLiked = !UserDefaultsManager.shared.checkLiked(movieId: movie.id)
                 UserDefaultsManager.shared.saveLiked(movieId: movie.id, isLiked: isLiked)
                 cell.updateLikeButton()
+                self?.updateMovieBox()
             }
             cell.movie = movie
             return cell
