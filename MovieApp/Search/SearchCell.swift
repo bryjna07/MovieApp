@@ -63,7 +63,7 @@ extension SearchCell {
         guard let movie else { return }
         nameLabel.text = movie.title
         dateLabel.text = movie.formattedReleaseDate
-        let array = movie.transfromGenreArray
+        let array = movie.transformGenreArray
         tagStackView.arrangedSubviews.forEach {
             tagStackView.removeArrangedSubview($0)
         }

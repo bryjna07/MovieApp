@@ -45,12 +45,16 @@ struct Movie: Codable {
         return DateFormatManager.shared.formatDateString(dateString: releaseDate)
     }
     
-    var transfromGenreArray: [String] {
+    var transformGenreArray: [String] {
         let intArray = Array(genreIds.prefix(2))
         let stringArray = intArray.map {
             Genre.genreForString(id: $0)
         }
         return stringArray
+    }
+    
+    var transformAverage: String {
+        return NumberFormatManager.shared.formatDouble(voteAverage)
     }
 }
 
