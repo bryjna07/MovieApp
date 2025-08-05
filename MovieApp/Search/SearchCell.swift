@@ -133,6 +133,7 @@ extension SearchCell {
     
     override func configureView() {
         super.configureView()
+        selectionStyle = .none
         likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
     }
     

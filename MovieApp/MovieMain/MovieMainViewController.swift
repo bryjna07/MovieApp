@@ -20,8 +20,8 @@ final class MovieMainViewController: BaseViewController {
     
     var movieList: [Movie] = []
     
-    // detail -> Main 리로드 위한 인덱스
-    var detailIndex: Int?
+//    // detail -> Main 리로드 위한 인덱스
+//    var detailIndex: Int?
     
     override func loadView() {
         view = mainView
@@ -144,7 +144,7 @@ extension MovieMainViewController: UICollectionViewDelegate, UICollectionViewDat
             navigationController?.pushViewController(vc, animated: true)
         } else {
             let movie = movieList[indexPath.item]
-            detailIndex = indexPath.item
+//            detailIndex = indexPath.item
             let vc = MovieDetailViewController(movie: movie)
             navigationController?.pushViewController(vc, animated: true)
         }

@@ -16,6 +16,9 @@ final class SearchViewController: BaseViewController {
     
     var movie: MovieInfo?
     
+    // detail -> Search 리로드 위한 인덱스
+    var detailIndex: Int?
+    
     var list: [Movie] = []
     
     override func loadView() {
@@ -29,6 +32,16 @@ final class SearchViewController: BaseViewController {
         searchView.searchBar.delegate = self
         searchView.tableView.delegate = self
         searchView.tableView.dataSource = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // detail -> Search 좋아요 버튼 상태 업데이트를 위한 리로드
+        if let index = detailIndex {
+            searchView.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+            detailIndex = nil
+        }
     }
 }
 
@@ -52,6 +65,13 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         cell.movie = movie
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movie = list[indexPath.row]
+        detailIndex = indexPath.row
+        let vc = MovieDetailViewController(movie: movie)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension SearchViewController: UISearchBarDelegate {
@@ -69,6 +89,7 @@ extension SearchViewController: UISearchBarDelegate {
             case .success(let movie):
                 self.movie = movie
                 self.list = movie.results
+                view.endEditing(true)
                 searchView.tableView.reloadData()
             case .failure(let error):
                 print(error)

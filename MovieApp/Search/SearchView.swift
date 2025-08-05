@@ -26,7 +26,6 @@ final class SearchView: BaseView {
         $0.register(SearchCell.self, forCellReuseIdentifier: SearchCell.identifier)
         $0.rowHeight = 140
         $0.backgroundColor = .black
-        $0.allowsSelection = false
         $0.keyboardDismissMode = .onDrag
     }
     
