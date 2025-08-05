@@ -85,6 +85,10 @@ final class MovieMainViewController: BaseViewController {
         vc.nickNameUpdateClosure = { [weak self] in
             self?.setProfile()
         }
+        if let sheet = naviVC.sheetPresentationController {
+            sheet.detents = [.large()]
+            sheet.prefersGrabberVisible = true
+        }
         present(naviVC, animated: true)
     }
     
