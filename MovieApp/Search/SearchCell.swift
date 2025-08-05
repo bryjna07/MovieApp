@@ -18,6 +18,8 @@ final class SearchCell: BaseTableViewCell {
         }
     }
     
+    var likeButtonClosure: (()-> Void)?
+    
     private let movieImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
         $0.layer.cornerRadius = 8
@@ -63,6 +65,14 @@ extension SearchCell {
         let urlString = MovieImage.movieImageURL(size: 200, posterPath: imageURL)
         let url = URL(string: urlString)
         movieImageView.setKFImage(from: url)
+        updateLikeButton()
+    }
+    
+    func updateLikeButton() {
+        guard let movie else { return }
+        let isLiked = UserDefaultsManager.shared.checkLiked(movieId: movie.id)
+        let imageName = isLiked ? Text.SystemImage.heartFill : Text.SystemImage.heart
+        likeButton.setImage(UIImage(systemName: imageName), for: .normal)
     }
     
     override func configureHierarchy() {
@@ -119,5 +129,14 @@ extension SearchCell {
             $0.bottom.trailing.equalToSuperview().inset(16)
             $0.size.equalTo(20)
         }
+    }
+    
+    override func configureView() {
+        super.configureView()
+        likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func likeButtonTapped() {
+        likeButtonClosure?()
     }
 }

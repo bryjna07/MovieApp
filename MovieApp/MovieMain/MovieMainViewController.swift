@@ -41,11 +41,12 @@ final class MovieMainViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // detail -> Main 좋아요 버튼 상태 업데이트를 위한 리로드
-        if let index = detailIndex {
-            mainView.movieCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
-            detailIndex = nil
-        }
+//        // detail -> Main 좋아요 버튼 상태 업데이트를 위한 리로드
+//        if let index = detailIndex {
+//            mainView.movieCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+//            detailIndex = nil
+//        }
+        mainView.movieCollectionView.reloadData()
     }
     
     override func setupNaviBar() {
@@ -125,7 +126,6 @@ extension MovieMainViewController: UICollectionViewDelegate, UICollectionViewDat
             guard let cell = mainView.movieCollectionView.dequeueReusableCell(withReuseIdentifier: TodayMovieCell.identifier, for: indexPath) as? TodayMovieCell else { return UICollectionViewCell() }
             
             let movie = self.movieList[indexPath.item]
-            cell.movie = movie
             
             // 좋아요 버튼 클로저
             cell.likeButtonClosure = {
@@ -133,6 +133,7 @@ extension MovieMainViewController: UICollectionViewDelegate, UICollectionViewDat
                 UserDefaultsManager.shared.saveLiked(movieId: movie.id, isLiked: isLiked)
                 cell.updateLikeButton()
             }
+            cell.movie = movie
             return cell
         }
     }

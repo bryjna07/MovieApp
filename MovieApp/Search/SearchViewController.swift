@@ -30,8 +30,6 @@ final class SearchViewController: BaseViewController {
         searchView.tableView.delegate = self
         searchView.tableView.dataSource = self
     }
-    
-
 }
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
@@ -41,7 +39,17 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchCell.identifier, for: indexPath) as? SearchCell else { return UITableViewCell() }
-        cell.movie = list[indexPath.row]
+        
+        let movie = list[indexPath.row]
+        
+        // 좋아요 버튼 클로저
+        cell.likeButtonClosure = {
+            let isLiked = !UserDefaultsManager.shared.checkLiked(movieId: movie.id)
+            UserDefaultsManager.shared.saveLiked(movieId: movie.id, isLiked: isLiked)
+            cell.updateLikeButton()
+        }
+        
+        cell.movie = movie
         return cell
     }
 }
