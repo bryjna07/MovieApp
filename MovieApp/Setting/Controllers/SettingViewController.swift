@@ -9,9 +9,10 @@ import UIKit
 
 class SettingViewController: BaseViewController {
     
-    let settingView = SettingView()
+    private let settingView = SettingView()
+    private let userDefaultsManager = UserDefaultsManager.shared
     
-    let list = ["자주 묻는 질문", "1:1 문의", "알림 설정", "탈퇴하기"]
+    private let list = ["자주 묻는 질문", "1:1 문의", "알림 설정", "탈퇴하기"]
     
     override func loadView() {
         view = settingView
@@ -22,6 +23,7 @@ class SettingViewController: BaseViewController {
         setProfile()
         setupTableView()
         setupButtonAction()
+        updateMovieBox()
     }
     
     override func setupNaviBar() {
@@ -35,6 +37,12 @@ class SettingViewController: BaseViewController {
         } else {
             settingView.profileView.nicknameLabel.text = "닉네임 없음"
         }
+    }
+    
+    // 무비박스 갯수 업데이트
+    private func updateMovieBox() {
+        let likeCount = userDefaultsManager.getlikeCount()
+        settingView.profileView.movieBoxLabel.text = "\(likeCount)개의 무비박스 보관중"
     }
     
     private func setupTableView() {
