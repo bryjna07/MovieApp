@@ -51,9 +51,8 @@ final class MovieDetailViewController: BaseViewController {
         guard let movie = movie else { return }
         
         let isLiked = userDefaultsManager.checkLiked(movieId: movie.id)
-        navigationItem.rightBarButtonItem?.image = UIImage(
-            systemName: isLiked ? "heart.fill" : "heart"
-        )
+        let imageName = isLiked ? Text.SystemImage.heartFill : Text.SystemImage.heart
+        navigationItem.rightBarButtonItem?.image = UIImage(systemName: imageName)
     }
     
     @objc private func likeButtonTapped() {

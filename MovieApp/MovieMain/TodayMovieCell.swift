@@ -17,6 +17,8 @@ final class TodayMovieCell: BaseCollectionViewCell {
         }
     }
     
+    var likeButtonClosure: (()-> Void)?
+    
     private let imageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
         $0.layer.cornerRadius = 8
@@ -26,6 +28,11 @@ final class TodayMovieCell: BaseCollectionViewCell {
     private let nameLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 16)
         $0.textColor = .white
+    }
+    
+    let likeButton = UIButton().then {
+        $0.setImage(UIImage(systemName: Text.SystemImage.heart), for: .normal)
+        $0.tintColor = .main
     }
     
     private let explainLabel = UILabel().then {
@@ -49,12 +56,21 @@ extension TodayMovieCell {
         let urlString = MovieImage.movieImageURL(size: 200, posterPath: imageURL)
         let url = URL(string: urlString)
         imageView.setKFImage(from: url)
+        updateLikeButton()
+    }
+    
+    func updateLikeButton() {
+        guard let movie else { return }
+        let isLiked = UserDefaultsManager.shared.checkLiked(movieId: movie.id)
+        let imageName = isLiked ? Text.SystemImage.heartFill : Text.SystemImage.heart
+        likeButton.setImage(UIImage(systemName: imageName), for: .normal)
     }
     
     override func configureHierarchy() {
         [
             imageView,
             nameLabel,
+            likeButton,
             explainLabel,
         ].forEach {
             contentView.addSubview($0)
@@ -71,7 +87,14 @@ extension TodayMovieCell {
         
         nameLabel.snp.makeConstraints {
             $0.top.equalTo(imageView.snp.bottom).offset(8)
-            $0.horizontalEdges.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalTo(likeButton.snp.leading).offset(-2)
+        }
+        
+        likeButton.snp.makeConstraints {
+            $0.top.equalTo(imageView.snp.bottom).offset(8)
+            $0.trailing.equalToSuperview()
+            $0.size.equalTo(20)
         }
         
         explainLabel.snp.makeConstraints {
@@ -81,6 +104,10 @@ extension TodayMovieCell {
     }
     
     override func configureView() {
+        likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
     }
     
+    @objc private func likeButtonTapped() {
+        likeButtonClosure?()
+    }
 }

@@ -20,6 +20,9 @@ final class MovieMainViewController: BaseViewController {
     
     var movieList: [Movie] = []
     
+    // detail -> Main 리로드 위한 인덱스
+    var detailIndex: Int?
+    
     override func loadView() {
         view = mainView
     }
@@ -33,6 +36,16 @@ final class MovieMainViewController: BaseViewController {
 //        mainView.recentCollectionView.isHidden = true
         mainView.emptyView.isHidden = true
         requestMovie()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // detail -> Main 좋아요 버튼 상태 업데이트를 위한 리로드
+        if let index = detailIndex {
+            mainView.movieCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+            detailIndex = nil
+        }
     }
     
     override func setupNaviBar() {
@@ -110,7 +123,16 @@ extension MovieMainViewController: UICollectionViewDelegate, UICollectionViewDat
             return cell
         } else {
             guard let cell = mainView.movieCollectionView.dequeueReusableCell(withReuseIdentifier: TodayMovieCell.identifier, for: indexPath) as? TodayMovieCell else { return UICollectionViewCell() }
-            cell.movie = movieList[indexPath.item]
+            
+            let movie = self.movieList[indexPath.item]
+            cell.movie = movie
+            
+            // 좋아요 버튼 클로저
+            cell.likeButtonClosure = {
+                let isLiked = !UserDefaultsManager.shared.checkLiked(movieId: movie.id)
+                UserDefaultsManager.shared.saveLiked(movieId: movie.id, isLiked: isLiked)
+                cell.updateLikeButton()
+            }
             return cell
         }
     }
@@ -121,6 +143,7 @@ extension MovieMainViewController: UICollectionViewDelegate, UICollectionViewDat
             navigationController?.pushViewController(vc, animated: true)
         } else {
             let movie = movieList[indexPath.item]
+            detailIndex = indexPath.item
             let vc = MovieDetailViewController(movie: movie)
             navigationController?.pushViewController(vc, animated: true)
         }
