@@ -28,6 +28,7 @@ enum Text {
     
     enum Title {
         static let nickname = "닉네임 설정"
+        static let editNmae = "닉네임 편집"
         static let main = "Let's Movie"
     }
     

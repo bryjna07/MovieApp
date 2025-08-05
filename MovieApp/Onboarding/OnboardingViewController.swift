@@ -26,8 +26,7 @@ final class OnboardingViewController: BaseViewController {
     }
     
     @objc private func startButtonTapped() {
-        let vc = NicknameViewController()
-        
+        let vc = NicknameViewController(type: .new)
         navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -21,6 +21,7 @@ class SettingViewController: BaseViewController {
         super.viewDidLoad()
         setProfile()
         setupTableView()
+        setupButtonAction()
     }
     
     override func setupNaviBar() {
@@ -39,6 +40,20 @@ class SettingViewController: BaseViewController {
     private func setupTableView() {
         settingView.tableView.delegate = self
         settingView.tableView.dataSource = self
+    }
+    
+    private func setupButtonAction() {
+        settingView.profileView.button.addTarget(self, action: #selector(profileButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func profileButtonTapped() {
+        print(#function)
+        let vc = NicknameViewController(type: .edit)
+        let naviVC = UINavigationController(rootViewController: vc)
+        vc.nickNameUpdateClosure = { [weak self] in
+            self?.setProfile()
+        }
+        present(naviVC, animated: true)
     }
 }
 

@@ -9,11 +9,14 @@ import UIKit
 
 final class NicknameDetailViewController: BaseViewController {
     
-    let detailView = NicknameDetailView()
+    var type: NicknameType
+    
+    lazy var detailView = NicknameDetailView()
     
     var nicknameUpdateClosure: ((String, NicknameValidate?) -> Void)?
     
-    init(nickname: String? = nil) {
+    init(type: NicknameType, nickname: String? = nil) {
+        self.type = type
         super.init(nibName: nil, bundle: nil)
         self.detailView.textField.text = nickname
     }
@@ -32,8 +35,14 @@ final class NicknameDetailViewController: BaseViewController {
     
     override func setupNaviBar() {
         super.setupNaviBar()
-        navigationItem.title = Text.Title.nickname
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(backButtonTapped))
+        switch type {
+        case .new:
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(backButtonTapped))
+            navigationItem.title = Text.Title.nickname
+        case .edit:
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(backButtonTapped))
+            navigationItem.title = Text.Title.editNmae
+        }
     }
     
     @objc private func backButtonTapped() {
@@ -65,4 +74,8 @@ extension NicknameDetailViewController: UITextFieldDelegate {
         return .valid
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        return true
+    }
 }

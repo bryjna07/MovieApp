@@ -20,6 +20,7 @@ final class NicknameDetailView: BaseView {
         $0.textColor = .white
         $0.tintColor = .white
         $0.layer.borderColor = UIColor.white.cgColor
+        $0.returnKeyType = .done
     }
     
     private let lineView = UIView().then {

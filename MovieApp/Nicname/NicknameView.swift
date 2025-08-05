@@ -11,6 +11,8 @@ import SnapKit
 
 final class NicknameView: BaseView {
     
+    var type: NicknameType
+    
     let nicknameLabel = UILabel().then {
         $0.textColor = .movieGray
         $0.font = .systemFont(ofSize: 16)
@@ -24,6 +26,10 @@ final class NicknameView: BaseView {
     
     let completeButton = CustomButton(title: "완료", color: .main, width: 1)
     
+    init(type: NicknameType) {
+        self.type = type
+        super.init(frame: .zero)
+    }
 }
 
 extension NicknameView {
@@ -64,6 +70,16 @@ extension NicknameView {
             $0.top.equalTo(lineView.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(44)
+        }
+    }
+    
+    override func configureView() {
+        super.configureView()
+        switch type {
+        case .new:
+            return
+        case .edit:
+            return completeButton.isHidden = true
         }
     }
 }

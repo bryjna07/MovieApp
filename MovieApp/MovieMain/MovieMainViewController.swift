@@ -80,7 +80,12 @@ final class MovieMainViewController: BaseViewController {
     
     @objc private func profileButtonTapped() {
         print(#function)
-        /// 닉네임 수정 모달 present
+        let vc = NicknameViewController(type: .edit)
+        let naviVC = UINavigationController(rootViewController: vc)
+        vc.nickNameUpdateClosure = { [weak self] in
+            self?.setProfile()
+        }
+        present(naviVC, animated: true)
     }
     
     @objc private func deleteButtonTapped() {
