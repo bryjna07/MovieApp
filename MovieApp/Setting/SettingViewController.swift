@@ -23,6 +23,11 @@ class SettingViewController: BaseViewController {
         setupTableView()
     }
     
+    override func setupNaviBar() {
+        super.setupNaviBar()
+        navigationItem.title = "설정"
+    }
+    
     private func setProfile() {
         if let nickname = UserDefaults.standard.string(forKey: "nickname") {
             settingView.profileView.nicknameLabel.text = nickname

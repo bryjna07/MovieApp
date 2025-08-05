@@ -37,6 +37,7 @@ final class MovieDetailViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        setupHeaderCollectionView()
         fetchBackdrop()
         fetchCast()
     }
@@ -68,6 +69,11 @@ final class MovieDetailViewController: BaseViewController {
         detailView.tableView.dataSource = self
     }
     
+    private func setupHeaderCollectionView() {
+        detailView.headerView.collectionView.delegate = self
+        detailView.headerView.collectionView.dataSource = self
+    }
+    
     private func fetchBackdrop() {
         guard let movie, let url = URL(string: MovieImage.backdropURL(id: movie.id)) else { return }
         print(url.absoluteString)
@@ -77,7 +83,7 @@ final class MovieDetailViewController: BaseViewController {
             case .success(let backdrop):
                 self.backdrop = backdrop
                 self.backdropList = backdrop.backdrops
-                detailView.tableView.reloadData()
+                detailView.headerView.collectionView.reloadData()
             case .failure(let error):
                 print(error)
             }
@@ -93,7 +99,7 @@ final class MovieDetailViewController: BaseViewController {
             case .success(let cast):
                 self.castInfo = cast
                 self.castList = cast.cast
-                detailView.tableView.reloadData()
+                detailView.headerView.collectionView.reloadData()
             case .failure(let error):
                 print(error)
             }
@@ -137,33 +143,11 @@ extension MovieDetailViewController: UITableViewDelegate, UITableViewDataSource 
         }
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0 {
-            guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: DetailHeaderView.id) as? DetailHeaderView else {
-                return nil
-            }
-            header.collectionView.delegate = self
-            header.collectionView.dataSource = self
-            header.collectionView.reloadData()
-            return header
-        } else {
-            return nil
-        }
-    }
-    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 1 {
             return "Cast"
         } else {
             return nil
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 {
-            return 300
-        } else {
-            return 30
         }
     }
 }
@@ -182,6 +166,4 @@ extension MovieDetailViewController: UICollectionViewDelegate, UICollectionViewD
         cell.index = indexPath.item
         return cell
     }
-    
-    
 }

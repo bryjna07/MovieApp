@@ -11,8 +11,11 @@ import SnapKit
 
 final class MovieDetailView: BaseView {
     
+    let headerView = DetailHeaderView()
+    
     lazy var tableView = UITableView().then {
-        $0.register(DetailHeaderView.self, forHeaderFooterViewReuseIdentifier: DetailHeaderView.id)
+        headerView.frame = CGRect(x: 0, y: 0, width: $0.bounds.width, height: 300)
+        $0.tableHeaderView = headerView
         $0.register(SynopsisCell.self, forCellReuseIdentifier: SynopsisCell.identifier)
         $0.register(CastCell.self, forCellReuseIdentifier: CastCell.identifier)
         $0.rowHeight = UITableView.automaticDimension

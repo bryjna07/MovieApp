@@ -9,9 +9,7 @@ import UIKit
 import Then
 import SnapKit
 
-final class DetailHeaderView: UITableViewHeaderFooterView {
-    
-    static let id = "DetailHeaderView"
+final class DetailHeaderView: BaseView {
     
     private let firstlayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
@@ -26,32 +24,16 @@ final class DetailHeaderView: UITableViewHeaderFooterView {
         $0.showsHorizontalScrollIndicator = false
         $0.isPagingEnabled = true
     }
-    
-    override init(reuseIdentifier: String?) {
-        super.init(reuseIdentifier: reuseIdentifier)
-        configureHierarchy()
-        configureLayout()
-        configureView()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
 
-extension DetailHeaderView: ConfigureUI {
-    func configureHierarchy() {
+extension DetailHeaderView {
+    override func configureHierarchy() {
         addSubview(collectionView)
     }
     
-    func configureLayout() {
+    override func configureLayout() {
         collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
-    
-    func configureView() {
-        
-    }
- 
 }
