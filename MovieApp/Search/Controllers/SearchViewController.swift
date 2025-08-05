@@ -106,7 +106,6 @@ final class SearchViewController: BaseViewController {
                 self.movie = movie
                 self.list.append(contentsOf: movie.results)
                 self.currentPage += 1
-                print(currentPage)
                 searchView.tableView.reloadData()
             case .failure(let error):
                 print(error)

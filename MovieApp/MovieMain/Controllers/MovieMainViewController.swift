@@ -80,7 +80,6 @@ final class MovieMainViewController: BaseViewController {
     }
     
     @objc private func profileButtonTapped() {
-        print(#function)
         let vc = NicknameViewController(type: .edit)
         let naviVC = UINavigationController(rootViewController: vc)
         vc.nickNameUpdateClosure = { [weak self] in
@@ -94,7 +93,6 @@ final class MovieMainViewController: BaseViewController {
     }
     
     @objc private func deleteButtonTapped() {
-        print(#function)
         userDefaultsManager.allDeleteRecent()
         recentSearchList = []
         mainView.recentCollectionView.reloadData()
@@ -128,7 +126,6 @@ final class MovieMainViewController: BaseViewController {
     
     private func requestMovie() {
         guard let url = networkManager.makeURL(path: MovieAPI.Path.trending.rawValue) else { return }
-        print(url.absoluteString)
         networkManager.fetchData(url: url) {  [weak self] (result: Result<MovieInfo, AFError>) in
             guard let self else { return }
             switch result {

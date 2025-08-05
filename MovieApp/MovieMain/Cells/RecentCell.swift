@@ -67,7 +67,6 @@ extension RecentCell {
     }
     
     @objc private func deletButtonTapped() {
-        print(#function)
         deleteButtonClosure?()
     }
     

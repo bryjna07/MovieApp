@@ -47,7 +47,6 @@ class SettingViewController: BaseViewController {
     }
     
     @objc private func profileButtonTapped() {
-        print(#function)
         let vc = NicknameViewController(type: .edit)
         let naviVC = UINavigationController(rootViewController: vc)
         vc.nickNameUpdateClosure = { [weak self] in
