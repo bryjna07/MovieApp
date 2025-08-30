@@ -40,6 +40,11 @@ final class TodayMovieCell: BaseCollectionViewCell {
         $0.textColor = .movieGray
         $0.numberOfLines = 3
     }
+    
+    override func prepareForReuse() {
+        imageView.cancelDownload()
+        imageView.image = nil
+    }
 }
 
 extension TodayMovieCell {
@@ -53,7 +58,7 @@ extension TodayMovieCell {
             explainLabel.text = movie.overview
         }
         guard let imageURL = movie.posterPath else { return }
-        let urlString = MovieImage.movieImageURL(size: 200, posterPath: imageURL)
+        let urlString = MovieImageAPI.movieImageURL(size: 200, posterPath: imageURL)
         let url = URL(string: urlString)
         imageView.setKFImage(from: url)
         updateLikeButton()

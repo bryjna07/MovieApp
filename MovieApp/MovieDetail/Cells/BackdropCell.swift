@@ -59,6 +59,7 @@ final class BackdropCell: BaseCollectionViewCell {
     private let filmIconView = IconView(image: UIImage(systemName: Text.SystemImage.film))
     
     override func prepareForReuse() {
+        imageView.cancelDownload()
         imageView.image = nil
     }
 }
@@ -75,7 +76,7 @@ extension BackdropCell {
     private func setupBackdrop() {
         guard let backdrop else { return }
         let imageURL = backdrop.filePath
-        let urlString = MovieImage.movieImageURL(size: 200, posterPath: imageURL)
+        let urlString = MovieImageAPI.movieImageURL(size: 200, posterPath: imageURL)
         let url = URL(string: urlString)
         imageView.setKFImage(from: url)
     }

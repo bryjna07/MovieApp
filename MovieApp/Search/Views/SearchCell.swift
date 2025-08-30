@@ -53,9 +53,9 @@ final class SearchCell: BaseTableViewCell {
         tagStackView.arrangedSubviews.forEach {
             tagStackView.removeArrangedSubview($0)
         }
+        movieImageView.cancelDownload()
         movieImageView.image = nil
     }
-    
 }
 
 extension SearchCell {
@@ -76,7 +76,7 @@ extension SearchCell {
         }
         
         guard let imageURL = movie.posterPath else { return }
-        let urlString = MovieImage.movieImageURL(size: 200, posterPath: imageURL)
+        let urlString = MovieImageAPI.movieImageURL(size: 200, posterPath: imageURL)
         let url = URL(string: urlString)
         movieImageView.setKFImage(from: url)
         updateLikeButton()

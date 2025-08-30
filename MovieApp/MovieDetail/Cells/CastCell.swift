@@ -43,7 +43,7 @@ extension CastCell {
         nameLabel.text = cast.name
         characterNameLabel.text = cast.character
         guard let imageURL = cast.profilePath else { return }
-        let urlString = MovieImage.movieImageURL(size: 200, posterPath: imageURL)
+        let urlString = MovieImageAPI.movieImageURL(size: 200, posterPath: imageURL)
         let url = URL(string: urlString)
         actorImageView.setKFImage(from: url)
     }
