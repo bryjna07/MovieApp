@@ -8,65 +8,6 @@
 import Foundation
 import Alamofire
 
-enum NetworkError: Error {
-    case invalidURL
-}
-
-enum Router: URLRequestConvertible {
-    case movie(MovieAPI)
-    
-    var method: HTTPMethod {
-            switch self {
-            case .movie(let api): return api.method
-            }
-        }
-        
-        var scheme: String {
-            return "https"
-        }
-        
-        var host: String {
-            switch self {
-            case .movie: return "api.themoviedb.org"
-            }
-        }
-        
-        var path: String {
-            switch self {
-            case .movie(let api): return api.path
-            }
-        }
-        
-        var parameters: Parameters {
-            switch self {
-            case .movie(let api): return api.parameters
-            }
-        }
-        
-        var headers: HTTPHeaders {
-            switch self {
-            case .movie(let api): return api.headers
-            }
-        }
-        
-        func asURLRequest() throws -> URLRequest {
-            var components = URLComponents()
-            components.scheme = scheme
-            components.host = host
-            components.path = path
-            
-            guard let url = components.url else {
-                throw NetworkError.invalidURL
-            }
-            
-            var request = URLRequest(url: url)
-            request.method = method
-            request.headers = headers
-            
-            return try URLEncoding.default.encode(request, with: parameters)
-        }
-}
-
 enum MovieAPI {
     case trending(page: Int)
     case search(query: String, page: Int)
@@ -74,19 +15,19 @@ enum MovieAPI {
     case credit(id: Int)
     
     var method: HTTPMethod {
-            return .get
-        }
+        return .get
+    }
     
     private var apiKey: String? {
-            return Bundle.main.object(forInfoDictionaryKey: "APIKey") as? String
-        }
+        return Bundle.main.object(forInfoDictionaryKey: "APIKey") as? String
+    }
     
     var headers: HTTPHeaders {
         guard let key = apiKey else {
             fatalError("API 키가 설정되지 않았습니다.")
         }
-            return ["Authorization": "\(key)"]
-        }
+        return ["Authorization": "\(key)"]
+    }
     
     var path: String {
         switch self {
@@ -101,7 +42,7 @@ enum MovieAPI {
         }
     }
     
-    var parameters: Parameters {
+    var parameters: Parameters? {
         
         switch self {
         case .trending(let page):
@@ -117,20 +58,11 @@ enum MovieAPI {
                 "include_adult": false
             ]
         case .backdrop:
-            return [:]
+            return nil
         case .credit:
             return [
                 "language": "ko-KR"
             ]
         }
-    }
-}
-
-enum MovieImage {
-    
-    static let imageBaseURL = "https://image.tmdb.org/t/p/"
-    
-    static func movieImageURL(size: Int, posterPath: String) -> String {
-        return "\(imageBaseURL)w\(size)\(posterPath)"
     }
 }
