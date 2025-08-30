@@ -117,8 +117,8 @@ final class MovieMainViewController: BaseViewController {
     }
     
     private func requestMovie() {
-        guard let url = networkManager.makeURL(path: MovieAPI.Path.trending.rawValue) else { return }
-        networkManager.fetchData(url: url) {  [weak self] (result: Result<MovieInfo, AFError>) in
+        let router = Router.movie(.trending(page: 1))
+        networkManager.fetchData(router) { [weak self] (result: Result<MovieInfo, AFError>) in
             guard let self else { return }
             switch result {
             case .success(let movie):

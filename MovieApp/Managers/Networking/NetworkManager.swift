@@ -15,13 +15,9 @@ final class NetworkManager {
     private init() {}
     
     /// API 요청 메서드
-    func fetchData<T: Decodable>(url: URL, completion: @escaping (Result<T, AFError>) -> Void) {
+    func fetchData<T: Decodable>(_ router: Router, completion: @escaping (Result<T, AFError>) -> Void) {
         
-        let header: HTTPHeaders = [
-            "Authorization": MovieAPI.apiKey,
-        ]
-        
-        AF.request(url, headers: header)
+        AF.request(router)
             .validate(statusCode: 200..<500)
             .responseDecodable(of: T.self) { response in
             switch response.result {
@@ -31,18 +27,5 @@ final class NetworkManager {
                 completion(.failure(error))
             }
         }
-    }
-    
-    func makeURL(path: MovieAPI.Path.RawValue, query: [URLQueryItem]? = nil) -> URL? {
-        var components = URLComponents()
-        components.scheme = MovieAPI.scheme
-        components.host = MovieAPI.host
-        components.path = path
-        guard let query else {
-            components.queryItems = MovieAPI.queryItems
-            return components.url
-        }
-        components.queryItems = query + MovieAPI.queryItems
-        return components.url
     }
 }

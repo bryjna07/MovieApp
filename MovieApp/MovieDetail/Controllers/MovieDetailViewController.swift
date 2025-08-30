@@ -88,8 +88,9 @@ final class MovieDetailViewController: BaseViewController {
     //MARK: - Networking
     
     private func fetchBackdrop() {
-        guard let movie, let url = URL(string: MovieImage.backdropURL(id: movie.id)) else { return }
-        networkManager.fetchData(url: url) { [weak self] (result: Result<BackdropInfo, AFError>) in
+        guard let movie else { return }
+        let router = Router.movie(.backdrop(id: movie.id))
+        networkManager.fetchData(router) { [weak self] (result: Result<BackdropInfo, AFError>) in
             guard let self else { return }
             switch result {
             case .success(let backdrop):
@@ -103,8 +104,9 @@ final class MovieDetailViewController: BaseViewController {
     }
     
     private func fetchCast() {
-        guard let movie, let url = URL(string: MovieImage.creditURL(id: movie.id)) else { return }
-        networkManager.fetchData(url: url) { [weak self] (result: Result<CastInfo, AFError>) in
+        guard let movie else { return }
+        let router = Router.movie(.credit(id: movie.id))
+        networkManager.fetchData(router) { [weak self] (result: Result<CastInfo, AFError>) in
             guard let self else { return }
             switch result {
             case .success(let cast):

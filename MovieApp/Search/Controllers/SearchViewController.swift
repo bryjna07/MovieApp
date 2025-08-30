@@ -72,12 +72,8 @@ final class SearchViewController: BaseViewController {
     }
     
     func fetchSearchMovie(searchText: String) {
-        let query: [URLQueryItem] = [
-            URLQueryItem(name: "query", value: searchText),
-            URLQueryItem(name: "include_adult", value: "false"),
-        ]
-        guard let url = networkManager.makeURL(path: MovieAPI.Path.search.rawValue, query: query) else { return }
-        networkManager.fetchData(url: url) {  [weak self] (result: Result<MovieInfo, AFError>) in
+        let router = Router.movie(.search(query: searchText, page: 1))
+        networkManager.fetchData(router) {  [weak self] (result: Result<MovieInfo, AFError>) in
             guard let self else { return }
             switch result {
             case .success(let movie):
@@ -93,13 +89,8 @@ final class SearchViewController: BaseViewController {
     
     private func prefetchMovie(page: Int = 2) {
         guard let text = searchView.searchBar.text else { return }
-        let query: [URLQueryItem] = [
-            URLQueryItem(name: "query", value: text),
-            URLQueryItem(name: "include_adult", value: "false"),
-            URLQueryItem(name: "page", value: "\(page)"),
-        ]
-        guard let url = networkManager.makeURL(path: MovieAPI.Path.search.rawValue, query: query) else { return }
-        networkManager.fetchData(url: url) {  [weak self] (result: Result<MovieInfo, AFError>) in
+        let router = Router.movie(.search(query: text, page: page))
+        networkManager.fetchData(router) {  [weak self] (result: Result<MovieInfo, AFError>) in
             guard let self else { return }
             switch result {
             case .success(let movie):
