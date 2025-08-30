@@ -53,6 +53,7 @@ final class SearchCell: BaseTableViewCell {
         tagStackView.arrangedSubviews.forEach {
             tagStackView.removeArrangedSubview($0)
         }
+        movieImageView.image = nil
     }
     
 }
